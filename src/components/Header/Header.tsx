@@ -5,7 +5,6 @@ function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        <img src="../src/assets/logo.svg" />
         <nav className="nav">
           <Link to="/" className="nav-link">
             ACCUEIL

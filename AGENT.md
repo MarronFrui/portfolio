@@ -36,7 +36,7 @@ Repo: <https://github.com/MarronFrui/portfolio> — local path `/home/marron/wor
 | UI       | **React 19**                                    |
 | Language | **TypeScript ~7.0** (`strict` via `tsc -b`)     |
 | Routing  | **react-router-dom ^7.18**                      |
-| Styling  | **SCSS** (migration from plain CSS in progress) |
+| Styling  | **SCSS** — plain-CSS migration is complete; global styles are being rebuilt (see the Current state of the code section) |
 | Lint     | **Oxlint** (`npm run lint`)                     |
 
 Scripts: `npm run dev` · `npm run build` (`tsc -b && vite build`) · `npm run lint` · `npm run preview`.
@@ -69,36 +69,28 @@ A separate section for personal work, distinct from the OC coursework:
 Notion database **"Portfolio"** (Kanban, grouped by status):
 <https://app.notion.com/p/40ff6bacafed80ebbec2ea84a961ad94?v=40ff6bacafed8088bc1c000c002aa4e1>
 
-Accessed live via the `notion` MCP server (added to `~/.config/opencode/opencode.json`, `--global`). Data source: `collection://40ff6bac-afed-8059-8d31-000bbec91626`. Schema: `Nom` (title), `État` (status: `Pas commencé` / `En cours` / `Terminé`), `Assignation` (person).
+Accessed live via the `notion` MCP server (added to `~/.config/opencode/opencode.json`, `--global`). Data source: `collection://40ff6bac-afed-8059-8d31-000bbec91626`. Schema: `Nom` (title), `État` (status: `Pas commencé` / `En cours` / `Terminé`), `Étape` (step number 1–39 — the execution order), `Catégorie` (select: Planning / Setup / Build / Content / Personal / Polish / Ship), `Assignation` (person).
 
-> **Status: 34 tasks, 1 done.** Only `[Planning] Plan the portfolio in Notion` is `Terminé`. Everything else is `Pas commencé`. The board is the source of truth for sequencing; this file is the source of truth for _context_.
+**The board owns sequencing. This file owns context.** Read tasks from Notion live — do not mirror them here, they go stale.
 
-### Board contents (as of last sync)
+Status counts are recorded under "Last verified" at the bottom of this file.
 
-**[Planning]** — Define goals, audience & positioning · ~~Plan the portfolio in Notion~~ ✓ · Pick the OpenClassrooms projects to showcase · Sitemap & wireframes · Choose visual identity · Gather assets for every project · Write the project case studies
+### Board structure
 
-**[Setup]** — Initialize Vite + React + TypeScript project · Configure TypeScript strict mode, ESLint & Prettier · Choose styling approach & global design tokens · Define folder structure & project data model · Set up routing (`/` and `/projects/:itemId`) · Create GitHub repo, README & branching
+- **Order:** the `Étape` number (1–39) — sort the view by it to see the sequence to work in.
+- **Category:** the `Catégorie` property (Planning, Setup, Build, Content, Personal, Polish, Ship). Titles are plain words — no bracket tags.
+- **Every card's body carries:** a one-line description, subtasks, and success criteria.
 
-**[Build]** — Layout: header, navigation & footer · Hero / intro section · Carousel component · Project preview card (carousel slide) · Project detail page (ItemId) · 404 page & invalid itemId handling
-
-**[Content]** — About & Contact sections · Add OpenClassrooms project #1 · Add OpenClassrooms project #2
-
-**[Personal]** — Design the Personal Projects section · Noita Livemap project entry · Pokémon shiny hunter bot entry · Project M entry (scraper + homelab streaming)
-
-**[Polish]** — Responsive design pass · Accessibility audit · Performance optimization · SEO & meta tags · Tests (Vitest + React Testing Library)
-
-**[Ship]** — Deploy the portfolio · Final QA & promote
-
-> One row has a null `Nom` — an empty stray card, safe to ignore or delete.
+(The old empty stray card with no title was deleted.)
 
 ### Board vs. reality — discrepancies to resolve
 
 | Board says | Repo actually has | Action |
 | --- | --- | --- |
-| Route is **`/projects/:itemId`** | Nav links to `/` and `/about`; no router mounted | Use `/projects/:itemId` — the board is authoritative |
-| Configure **ESLint & Prettier** | **Oxlint** configured, no ESLint/Prettier present | Confirm: adopt Oxlint, or add ESLint+Prettier as the board says |
-| `[Setup]` tasks all `Pas commencé` | Vite+React+TS **already initialized**, repo exists, routing **partially** started (Layout/Header/Footer exist) | Mark these done or `En cours` in Notion |
-| `[Build] Layout` `Pas commencé` | `src/components/Layout/`, `src/components/Header/`, `src/components/Footer/` exist but broken/unwired | Close to `En cours` |
+| Route is **`/projects/:itemId`** | Router is mounted, but the detail route is **`/item/:id`** | Rename to `/projects/:itemId` — the board is authoritative |
+| ~~Configure **ESLint & Prettier**~~ | **Oxlint** stays (decided 2026-11-06) | Resolved — recorded on the step 7 card, now `Terminé` |
+
+(Resolved since the last pass: setup tasks and the layout task now carry their true statuses.)
 
 ---
 
@@ -121,84 +113,62 @@ Other personal repos worth mentioning: `noitamap` (the upstream fork), `input-pe
 
 ## 6. Current state of the code
 
-**Committed** through `9c228fa` ("Feat: Global architecture") — 4 commits on `master`, all pushed. Working tree is clean except `AGENT.md`.
-
-Commits: `ff5e1b6` structure + plan → `db32f51` page scaffolds → `9c228fa` router + page stubs.
-
-### Tooling status
-
-| Command | Result |
-| --- | --- |
-| `npx tsc -b` | ✓ passes (0 errors) |
-| `npm run lint` (oxlint) | ✓ 0 warnings, 0 errors — 11 files, 116 rules |
-| `npm run build` | ✗ **fails** |
-
-### The one build blocker
-
-`npm run build` runs `tsc -b && vite build`. Type-checking passes; **Vite fails**:
-
-```
-[UNRESOLVED_IMPORT] Could not resolve './index.css' in src/main.tsx
-```
-
-Two stale CSS imports survive from before the SCSS migration:
-
-1. `src/main.tsx:3` → `import './index.css'` — file was renamed to `index.scss`
-2. `src/App.tsx` → `import './App.css'` — file was renamed to `App.scss`
-
-Both are one-word fixes. Nothing else blocks the build.
-
 ### Architecture in place
 
+All components live under **`src/components/`**, one folder per component:
+
 - **`src/components/Router/Router.tsx`** — `BrowserRouter` with `Layout` as the parent route, children `/` (Home), `/about` (About), `/item/:id` (Item), `*` (Error).
+- **`src/App.tsx`** — renders `<Router />`. **The router is mounted and working.**
+- **`src/main.tsx`** — entry point, renders `<App />`.
 - **`src/components/Layout/Layout.tsx`** — `Header` + `<Outlet />` + `Footer`.
-- **Page stubs** — `Home`, `About`, `Item`, `Error` each render an empty `<div></div>`. Their `.scss` files exist but are **empty**.
+- **Page stubs** — `Home`, `About`, `Item`, `Error` each render an empty `<div></div>`.
 - **`src/components/Header/Header.tsx`** — French labels `ACCUEIL` (`/`) and `A PROPOS` (`/about`).
 
-### Gaps
+### Styling — deliberate decision, do not revert
 
-1. **`Router` is defined but never mounted.** `src/main.tsx` still renders bare `<App />` — so the router, layout, and all four pages are dead code right now.
-2. **Route mismatch:** code uses **`/item/:id`**, the Notion board specifies **`/projects/:itemId`**. Board is authoritative — rename before building the detail page, or the nav/URLs will drift.
-3. `src/components/Header/Header.tsx` references `src/assets/logo.svg` — **file not in repo**; `<img>` also lacks `alt`.
-4. `src/components/Layout/Layout.tsx` imports `./Layout.scss` — **does not exist**.
-5. `src/App.tsx` still holds the **stock Vite template** (counter, docs/social links).
-6. Nothing built yet: no carousel, no project data model, no detail-page content, no Personal Projects section.
+**`src/index.scss` was deleted on purpose** while rebuilding global styling from scratch. It used to define every design token (`--accent`, `--bg`, `--border`, `--text`, font stacks), `body { margin: 0 }`, the `#root` container, element resets, and dark-mode overrides.
 
-### Assets available
+- There are currently **no design tokens anywhere in `src/`**. Do not go looking for them, and do not restore `index.scss` — the owner is rebuilding styling their own way.
+- Consequence: the page renders with raw browser defaults until the new global styles land. That is expected, not a bug.
 
-`src/assets/hero.png`, `react.svg`, `vite.svg` · `public/favicon.svg`, `public/icons.svg`.
+### Build status
 
-### Styling conventions
+`npx tsc -b` ✓ and `npm run lint` ✓ both pass. `npm run build` currently **fails** — see the open build break below.
 
-`src/index.scss` defines design tokens as CSS custom properties on `:root`: `--text`, `--text-h`, `--bg`, `--border`, `--accent`, `--accent-bg`, `--accent-border`, `--social-bg`, `--shadow`, plus font stacks `--sans`, `--heading`, `--mono`. Dark mode via `prefers-color-scheme`. Breakpoint used throughout: `1024px`. **Reuse these tokens — do not hardcode colors.**
+**Open build break:** `src/App.tsx` imports `./App.scss`, but `src/App.scss` is deleted in the working tree. Vite reports `Could not resolve './App.scss' in src/App.tsx`. Fix is the owner's call: restore the file (`git checkout -- src/App.scss`) or drop the import.
+
+Stylesheets in play: `Layout.tsx` imports `Layout.scss` (new, defines body margin and a dark background). `Header.scss` and `Footer.scss` are imported but empty; the other component `.scss` files are unreferenced placeholders.
+
+### Dead code and orphaned assets
+
+- **`src/App.scss`** — deleted in the working tree while `src/App.tsx` now imports it. Until that is reconciled the build fails (see Build status).
+- **`src/components/Header/Header.tsx` line 8** — `<img src="../src/assets/logo.svg" />`. Two bugs: the file has **never existed in git history**, and `../src/assets/…` is a runtime URL path rather than a module import. Also missing `alt`.
+- **Orphaned assets, referenced by nothing:** `src/assets/hero.png`, `src/assets/react.svg`, `src/assets/vite.svg`, `public/icons.svg`. (`public/favicon.svg` is still used by `index.html`.)
+
+### Styling conventions (once global styles land)
+
+Prefer CSS custom properties over hardcoded values, and reuse the 1024px breakpoint that the existing component SCSS already uses. Component-level SCSS files (`Header.scss`, `Footer.scss`) currently exist but are empty.
 
 ---
 
-## 7. Suggested next steps
+## 7. Next up
 
-In order:
+**No blocker — the build is green.** `npm run build` succeeds.
 
-1. **Fix the build** — the two stale CSS imports described under "Current state of the code". Verify with `npm run build`.
-2. **Mount `Router` in `main.tsx`** — replace `<App />` with `<Router />`; retire or repurpose `App.tsx`.
-3. **Rename `/item/:id` → `/projects/:itemId`** to match the board, before anything links to it.
-4. **Add the missing assets** — `logo.svg`, `Layout.scss`, fill `Header.scss`/`Footer.scss`.
-5. **Design the project data model** — a typed `Project` interface (`id`, `title`, `description`, `tags`, `repoUrl`, `previewImage`, `stack`, `highlights`) backed by a static TS array. Feeds both the carousel and the detail route.
-6. **Build the carousel** — home-page section, previews swap on click/arrows.
-7. **Build `/projects/:itemId`** — detail page reading `useParams()`, with a fallback for unknown ids (board has a dedicated "404 page & invalid itemId handling" task).
-8. **Add the "Personal projects" section** — the table of Noita Livemap / Pokémon bot / Project M under "Requirements from the owner".
-9. **Pick the two OC projects** with the owner, then write their copy.
-10. **Mark progress on the Notion board** as tasks land — 33 of 34 are still `Pas commencé`, several already partially done.
+Next work is sequenced on the Notion board, under Task board above. Do not work from a plan in this file; the board is the source of truth for what comes next.
 
 ---
 
 ## 8. Conventions & gotchas
 
-- Component layout: one folder per component (`src/components/Header/Header.tsx` + `Header.scss`), default export, named function.
+- **Plain words only** — no abbreviations, invented symbols, or tags that need explaining. If a label needs a paragraph to decode it, rename it. This applies to task names on the board, section references in this file, and card names alike.
+- Component layout: one folder per component under `src/components/` (`src/components/Header/Header.tsx` + `Header.scss`), default export, named function.
 - French UI labels are intentional (`ACCUEIL`, `A PROPOS`).
-- Oxlint, not ESLint. No type-aware rules enabled yet.
-- `tsconfig.node.json` `include` is fragile — it was broken by a bad edit; double-check it after any tsconfig change.
+- Oxlint, not ESLint — decided 2026-11-06 (no formatter either). No type-aware rules enabled yet.
+- `tsconfig.node.json` `include` is now correct (`"vite.config.ts"`). It was broken by an earlier bad edit — double-check it after any tsconfig change.
 - Don't commit `node_modules/` or `dist/` (already gitignored).
-- Ask before deleting or rewriting committed work — the SCSS migration and page scaffolds are already in history, but large rewrites are still worth confirming.
+- Ask before deleting or rewriting committed work — large rewrites are worth confirming first.
+- Do not restore `src/index.scss` — its removal was deliberate (explained under Current state of the code).
 
 ---
 
@@ -207,6 +177,17 @@ In order:
 1. Which **two OpenClassrooms projects** to feature?
 2. What is **Project M**? Need a repo link, screenshots, and a one-paragraph description.
 3. Is there a **deploy target** (GitHub Pages, Netlify, Vercel)? Affects routing (`BrowserRouter` vs `HashRouter`) and base path.
-4. **Language of the site** — French, English, or bilingual? Nav labels are currently French. (Board task titles are French, which hints French — but confirm.)
+4. ~~Language of the site~~ **Resolved** — bilingual: French and English, with an EN/FR toggle in the header. Tracked on the Notion board as plain-named language cards.
 5. ~~Is the Notion board meant to be read by agents?~~ **Resolved** — board is connected via the `notion` MCP server and read live. Mirror nothing; read from Notion.
-6. **Lint/format tooling** — the board says ESLint & Prettier, the repo has Oxlint. Adopt Oxlint (less config, already working) or follow the board?
+6. ~~Lint/format tooling~~ **Resolved** — Oxlint stays, no ESLint or Prettier. Decided on 2026-11-06 when installing the project tooling; recorded on the board (card for step 7, now `Terminé`).
+
+---
+
+## Last verified
+
+Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
+
+- **Commit:** `5959614` "Feat: Cleaning Architecture" — 5 commits on `master`. Uncommitted in the working tree: `AGENT.md`, `package.json`, `package-lock.json`, `src/App.tsx`, `src/App.scss` (deleted), `src/components/Layout/Layout.tsx`, `src/components/Layout/Layout.scss` (new).
+- **Tooling:** `npx tsc -b` ✓ 0 errors · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✗ fails — `App.tsx` imports the deleted `App.scss` (see Build status).
+- **Styling tooling:** `sass-embedded` added to `devDependencies` (uncommitted).
+- **Notion board:** 39 tasks — 3 `Terminé`, 5 `En cours`, 31 `Pas commencé`. Ordered by `Étape` (1–39); subtasks are checklists (`- [x]` = done) and every card has success criteria; category lives in the `Catégorie` property, titles carry no tags.
