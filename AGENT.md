@@ -24,7 +24,7 @@ Personal portfolio site for **MarronFrui** (GitHub: <https://github.com/MarronFr
 
 Repo: <https://github.com/MarronFrui/portfolio> — local path `/home/marron/work/project7`, branch `master`.
 
-**Goal:** showcase skills and projects, with two hard requirements (see §3).
+**Goal:** showcase skills and projects, with two hard requirements (listed under "Requirements from the owner" below).
 
 ---
 
@@ -50,7 +50,7 @@ Scripts: `npm run dev` · `npm run build` (`tsc -b && vite build`) · `npm run l
 1. **Promote at least 2 OpenClassrooms projects.**
 2. Vite + React + TypeScript stack.
 3. A **carousel** on the home page to swap between project previews.
-4. Clicking a preview navigates to a **detail page keyed by `ItemId`** (i.e. `/project/:id`) presenting that project.
+4. Clicking a preview navigates to a **detail page keyed by `ItemId`** (route is **`/projects/:itemId`**, per the Notion board) presenting that project.
 
 ### Nice-to-have — "Personal projects" section
 
@@ -66,9 +66,39 @@ A separate section for personal work, distinct from the OC coursework:
 
 ## 4. Task board
 
-Notion (owner's planning board): <https://app.notion.com/p/40ff6bacafed80ebbec2ea84a961ad94?v=40ff6bacafed8088bc1c000c002aa4e1>
+Notion database **"Portfolio"** (Kanban, grouped by status):
+<https://app.notion.com/p/40ff6bacafed80ebbec2ea84a961ad94?v=40ff6bacafed8088bc1c000c002aa4e1>
 
-> The owner stated the **"must have" tasks are done** on that board. Pull the remaining tasks from Notion at the start of a session — it is the source of truth for sequencing, this file is the source of truth for _context_.
+Accessed live via the `notion` MCP server (added to `~/.config/opencode/opencode.json`, `--global`). Data source: `collection://40ff6bac-afed-8059-8d31-000bbec91626`. Schema: `Nom` (title), `État` (status: `Pas commencé` / `En cours` / `Terminé`), `Assignation` (person).
+
+> **Status: 34 tasks, 1 done.** Only `[Planning] Plan the portfolio in Notion` is `Terminé`. Everything else is `Pas commencé`. The board is the source of truth for sequencing; this file is the source of truth for _context_.
+
+### Board contents (as of last sync)
+
+**[Planning]** — Define goals, audience & positioning · ~~Plan the portfolio in Notion~~ ✓ · Pick the OpenClassrooms projects to showcase · Sitemap & wireframes · Choose visual identity · Gather assets for every project · Write the project case studies
+
+**[Setup]** — Initialize Vite + React + TypeScript project · Configure TypeScript strict mode, ESLint & Prettier · Choose styling approach & global design tokens · Define folder structure & project data model · Set up routing (`/` and `/projects/:itemId`) · Create GitHub repo, README & branching
+
+**[Build]** — Layout: header, navigation & footer · Hero / intro section · Carousel component · Project preview card (carousel slide) · Project detail page (ItemId) · 404 page & invalid itemId handling
+
+**[Content]** — About & Contact sections · Add OpenClassrooms project #1 · Add OpenClassrooms project #2
+
+**[Personal]** — Design the Personal Projects section · Noita Livemap project entry · Pokémon shiny hunter bot entry · Project M entry (scraper + homelab streaming)
+
+**[Polish]** — Responsive design pass · Accessibility audit · Performance optimization · SEO & meta tags · Tests (Vitest + React Testing Library)
+
+**[Ship]** — Deploy the portfolio · Final QA & promote
+
+> One row has a null `Nom` — an empty stray card, safe to ignore or delete.
+
+### Board vs. reality — discrepancies to resolve
+
+| Board says | Repo actually has | Action |
+| --- | --- | --- |
+| Route is **`/projects/:itemId`** | Nav links to `/` and `/about`; no router mounted | Use `/projects/:itemId` — the board is authoritative |
+| Configure **ESLint & Prettier** | **Oxlint** configured, no ESLint/Prettier present | Confirm: adopt Oxlint, or add ESLint+Prettier as the board says |
+| `[Setup]` tasks all `Pas commencé` | Vite+React+TS **already initialized**, repo exists, routing **partially** started (Layout/Header/Footer exist) | Mark these done or `En cours` in Notion |
+| `[Build] Layout` `Pas commencé` | `src/components/Layout/`, `src/components/Header/`, `src/components/Footer/` exist but broken/unwired | Close to `En cours` |
 
 ---
 
@@ -91,32 +121,48 @@ Other personal repos worth mentioning: `noitamap` (the upstream fork), `input-pe
 
 ## 6. Current state of the code
 
-**The build is broken.** Nothing has been committed since `Initial commit` (`bc019e0`); all work below is uncommitted.
+**Committed** through `9c228fa` ("Feat: Global architecture") — 4 commits on `master`, all pushed. Working tree is clean except `AGENT.md`.
 
-### What's in progress
+Commits: `ff5e1b6` structure + plan → `db32f51` page scaffolds → `9c228fa` router + page stubs.
 
-- Migration **CSS → SCSS**: `src/App.css` and `src/index.css` deleted, replaced by `src/App.scss` and `src/index.scss`.
-- New layout components: `src/Layout/Layout.tsx` (uses `<Outlet />`), `src/Header/Header.tsx`, `src/Footer/Footer.tsx`.
-- `react-router-dom` added to `package.json`.
-- `Header.tsx` nav already uses French labels: `ACCUEIL` (`/`) and `A PROPOS` (`/about`).
+### Tooling status
 
-### Build blockers (`npm run build` fails)
+| Command | Result |
+| --- | --- |
+| `npx tsc -b` | ✓ passes (0 errors) |
+| `npm run lint` (oxlint) | ✓ 0 warnings, 0 errors — 11 files, 116 rules |
+| `npm run build` | ✗ **fails** |
 
-1. `tsconfig.node.json` — `include` changed to `"../vite.config.ts"`; must be `"vite.config.ts"`.
-2. `src/Footer/Footer.tsx` — unused `Link` import (TS6133).
+### The one build blocker
 
-### Latent failures (surface once #1 and #2 are fixed)
+`npm run build` runs `tsc -b && vite build`. Type-checking passes; **Vite fails**:
 
-3. `src/main.tsx` imports deleted `./index.css` → should be `./index.scss`.
-4. `src/App.tsx` imports deleted `./App.css` → should be `./App.scss`.
-5. `src/Layout/Layout.tsx` imports `./Layout.scss` — **file does not exist**. `Header.scss` and `Footer.scss` exist but are **empty**.
+```
+[UNRESOLVED_IMPORT] Could not resolve './index.css' in src/main.tsx
+```
 
-### Functional gaps
+Two stale CSS imports survive from before the SCSS migration:
 
-6. **No router is mounted.** `Layout`/`Header`/`Footer` are never rendered; `main.tsx` still renders bare `<App />`. The `/about` route linked in the nav does not exist.
-7. `src/Header/Header.tsx` references `src/assets/logo.svg` — **file not in repo**. It also needs an `alt` attribute.
-8. The app still renders the **stock Vite template page** (counter, docs/social links) — not portfolio content.
-9. No carousel, no project data model, no `/project/:id` detail route — the must-have features are entirely unbuilt.
+1. `src/main.tsx:3` → `import './index.css'` — file was renamed to `index.scss`
+2. `src/App.tsx` → `import './App.css'` — file was renamed to `App.scss`
+
+Both are one-word fixes. Nothing else blocks the build.
+
+### Architecture in place
+
+- **`src/components/Router/Router.tsx`** — `BrowserRouter` with `Layout` as the parent route, children `/` (Home), `/about` (About), `/item/:id` (Item), `*` (Error).
+- **`src/components/Layout/Layout.tsx`** — `Header` + `<Outlet />` + `Footer`.
+- **Page stubs** — `Home`, `About`, `Item`, `Error` each render an empty `<div></div>`. Their `.scss` files exist but are **empty**.
+- **`src/components/Header/Header.tsx`** — French labels `ACCUEIL` (`/`) and `A PROPOS` (`/about`).
+
+### Gaps
+
+1. **`Router` is defined but never mounted.** `src/main.tsx` still renders bare `<App />` — so the router, layout, and all four pages are dead code right now.
+2. **Route mismatch:** code uses **`/item/:id`**, the Notion board specifies **`/projects/:itemId`**. Board is authoritative — rename before building the detail page, or the nav/URLs will drift.
+3. `src/components/Header/Header.tsx` references `src/assets/logo.svg` — **file not in repo**; `<img>` also lacks `alt`.
+4. `src/components/Layout/Layout.tsx` imports `./Layout.scss` — **does not exist**.
+5. `src/App.tsx` still holds the **stock Vite template** (counter, docs/social links).
+6. Nothing built yet: no carousel, no project data model, no detail-page content, no Personal Projects section.
 
 ### Assets available
 
@@ -124,7 +170,7 @@ Other personal repos worth mentioning: `noitamap` (the upstream fork), `input-pe
 
 ### Styling conventions
 
-`src/index.scss` defines the design tokens as CSS custom properties on `:root`: `--text`, `--text-h`, `--bg`, `--border`, `--accent`, `--accent-bg`, `--accent-border`, `--social-bg`, `--shadow`, plus font stacks `--sans`, `--heading`, `--mono`. Dark mode is handled via `prefers-color-scheme`. Breakpoint used throughout: `1024px`. **Reuse these tokens — do not hardcode colors.**
+`src/index.scss` defines design tokens as CSS custom properties on `:root`: `--text`, `--text-h`, `--bg`, `--border`, `--accent`, `--accent-bg`, `--accent-border`, `--social-bg`, `--shadow`, plus font stacks `--sans`, `--heading`, `--mono`. Dark mode via `prefers-color-scheme`. Breakpoint used throughout: `1024px`. **Reuse these tokens — do not hardcode colors.**
 
 ---
 
@@ -132,25 +178,27 @@ Other personal repos worth mentioning: `noitamap` (the upstream fork), `input-pe
 
 In order:
 
-1. **Fix the build** — items 1–5 in §6. Verify with `npm run build` and `npm run lint`.
-2. **Mount the router** — `BrowserRouter` in `main.tsx`, `Layout` as the route tree, create `Home` and `About` routes, replace the Vite template `App.tsx` content.
-3. **Add the missing assets** — `logo.svg`, `Layout.scss`, fill `Header.scss`/`Footer.scss`.
-4. **Design the project data model** — a typed `Project` interface (`id`, `title`, `description`, `tags`, `repoUrl`, `previewImage`, `stack`, `highlights`) backed by a static TS array or JSON. This feeds both the carousel and the detail route.
-5. **Build the carousel** — home-page section, previews swap on click/arrows.
-6. **Build `/project/:id`** — detail page reading `useParams()`, with a fallback for unknown ids.
-7. **Add the "Personal projects" section** — §3 table.
-8. **Pick the two OC projects** with the owner, then write their copy.
+1. **Fix the build** — the two stale CSS imports described under "Current state of the code". Verify with `npm run build`.
+2. **Mount `Router` in `main.tsx`** — replace `<App />` with `<Router />`; retire or repurpose `App.tsx`.
+3. **Rename `/item/:id` → `/projects/:itemId`** to match the board, before anything links to it.
+4. **Add the missing assets** — `logo.svg`, `Layout.scss`, fill `Header.scss`/`Footer.scss`.
+5. **Design the project data model** — a typed `Project` interface (`id`, `title`, `description`, `tags`, `repoUrl`, `previewImage`, `stack`, `highlights`) backed by a static TS array. Feeds both the carousel and the detail route.
+6. **Build the carousel** — home-page section, previews swap on click/arrows.
+7. **Build `/projects/:itemId`** — detail page reading `useParams()`, with a fallback for unknown ids (board has a dedicated "404 page & invalid itemId handling" task).
+8. **Add the "Personal projects" section** — the table of Noita Livemap / Pokémon bot / Project M under "Requirements from the owner".
+9. **Pick the two OC projects** with the owner, then write their copy.
+10. **Mark progress on the Notion board** as tasks land — 33 of 34 are still `Pas commencé`, several already partially done.
 
 ---
 
 ## 8. Conventions & gotchas
 
-- Component layout: one folder per component (`src/Header/Header.tsx` + `Header.scss`), default export, named function.
+- Component layout: one folder per component (`src/components/Header/Header.tsx` + `Header.scss`), default export, named function.
 - French UI labels are intentional (`ACCUEIL`, `A PROPOS`).
 - Oxlint, not ESLint. No type-aware rules enabled yet.
 - `tsconfig.node.json` `include` is fragile — it was broken by a bad edit; double-check it after any tsconfig change.
 - Don't commit `node_modules/` or `dist/` (already gitignored).
-- Ask before deleting or rewriting the SCSS work in progress — it is uncommitted and would be lost.
+- Ask before deleting or rewriting committed work — the SCSS migration and page scaffolds are already in history, but large rewrites are still worth confirming.
 
 ---
 
@@ -159,5 +207,6 @@ In order:
 1. Which **two OpenClassrooms projects** to feature?
 2. What is **Project M**? Need a repo link, screenshots, and a one-paragraph description.
 3. Is there a **deploy target** (GitHub Pages, Netlify, Vercel)? Affects routing (`BrowserRouter` vs `HashRouter`) and base path.
-4. **Language of the site** — French, English, or bilingual? Nav labels are currently French.
-5. Is the Notion board meant to be read by agents (shared), or should tasks be mirrored into this file?
+4. **Language of the site** — French, English, or bilingual? Nav labels are currently French. (Board task titles are French, which hints French — but confirm.)
+5. ~~Is the Notion board meant to be read by agents?~~ **Resolved** — board is connected via the `notion` MCP server and read live. Mirror nothing; read from Notion.
+6. **Lint/format tooling** — the board says ESLint & Prettier, the repo has Oxlint. Adopt Oxlint (less config, already working) or follow the board?
