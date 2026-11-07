@@ -124,6 +124,24 @@ All components live under **`src/components/`**, one folder per component:
 - **Page stubs** — `Home`, `About`, `Item`, `Error` each render an empty `<div></div>`.
 - **`src/components/Header/Header.tsx`** — French labels `ACCUEIL` (`/`) and `A PROPOS` (`/about`).
 
+### Decided — home page structure (2026-11-06)
+
+1. Top of home: a who-I-am description **with skills** (the hero, step 19).
+2. Below it: the gallery — **one big project card at a time**, moved by arrow controls (step 22). The card is the step 21 component rendered large; size comes from the container.
+3. While the big card is focused (hover **or** keyboard focus), a short **preview video of the project** plays. No autoplay row, no slideshow of small cards.
+
+Recorded on the board on the cards for steps 19, 21 and 22. Touch decision (2026-11-06): phones have no hover, so the preview plays **while the card is on screen** — visibility replaces focus as the trigger; a tap keeps its single meaning: open the detail page. Blocked-autoplay (battery/data-saver) and reduced-motion fallbacks live on the step 22 card.
+
+### Decided — project data shape (2026-11-06)
+
+- **Id:** slugs (`noita-livemap`) — they live in `/projects/:itemId`; unique, stable, URL-safe
+- **Text:** every visible per-project field is an `{ en, fr }` pair on the object; the word lists hold shared chrome only (step 16)
+- **Media:** `{ src, alt }` objects — alt text lives in the data; `video?` optional, the static image is always the fallback
+- **Homepage picks:** the `featured?` flag marks the two promoted OpenClassrooms projects; home filters on it
+- **File:** one `data/projects.ts` — array order = gallery order; the detail page looks up by slug, and a `find` returning nothing is the step 23 unknown-id case
+
+Recorded on the step 12 card; type fields listed there.
+
 ### Styling — deliberate decision, do not revert
 
 **`src/index.scss` was deleted on purpose** while rebuilding global styling from scratch. It used to define every design token (`--accent`, `--bg`, `--border`, `--text`, font stacks), `body { margin: 0 }`, the `#root` container, element resets, and dark-mode overrides.
@@ -133,15 +151,13 @@ All components live under **`src/components/`**, one folder per component:
 
 ### Build status
 
-`npx tsc -b` ✓ and `npm run lint` ✓ both pass. `npm run build` currently **fails** — see the open build break below.
+All three commands pass: `npx tsc -b` ✓, `npm run lint` ✓, `npm run build` ✓.
 
-**Open build break:** `src/App.tsx` imports `./App.scss`, but `src/App.scss` is deleted in the working tree. Vite reports `Could not resolve './App.scss' in src/App.tsx`. Fix is the owner's call: restore the file (`git checkout -- src/App.scss`) or drop the import.
-
-Stylesheets in play: `Layout.tsx` imports `Layout.scss` (new, defines body margin and a dark background). `Header.scss` and `Footer.scss` are imported but empty; the other component `.scss` files are unreferenced placeholders.
+The earlier break (`App.tsx` importing deleted `App.scss`) was resolved by the owner: the import is gone, the file stayed deleted. `header` and `footer` have real styles now; `Layout.scss` still defines body margin and a dark background; the remaining component `.scss` files are empty placeholders.
 
 ### Dead code and orphaned assets
 
-- **`src/App.scss`** — deleted in the working tree while `src/App.tsx` now imports it. Until that is reconciled the build fails (see Build status).
+- **`src/App.scss`** — resolved: the import was removed and the template CSS file stayed deleted (commits `bf0336f`, `a5eb4c8`).
 - **`src/components/Header/Header.tsx` line 8** — `<img src="../src/assets/logo.svg" />`. Two bugs: the file has **never existed in git history**, and `../src/assets/…` is a runtime URL path rather than a module import. Also missing `alt`.
 - **Orphaned assets, referenced by nothing:** `src/assets/hero.png`, `src/assets/react.svg`, `src/assets/vite.svg`, `public/icons.svg`. (`public/favicon.svg` is still used by `index.html`.)
 
@@ -187,7 +203,6 @@ Next work is sequenced on the Notion board, under Task board above. Do not work 
 
 Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
 
-- **Commit:** `5959614` "Feat: Cleaning Architecture" — 5 commits on `master`. Uncommitted in the working tree: `AGENT.md`, `package.json`, `package-lock.json`, `src/App.tsx`, `src/App.scss` (deleted), `src/components/Layout/Layout.tsx`, `src/components/Layout/Layout.scss` (new).
-- **Tooling:** `npx tsc -b` ✓ 0 errors · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✗ fails — `App.tsx` imports the deleted `App.scss` (see Build status).
-- **Styling tooling:** `sass-embedded` added to `devDependencies` (uncommitted).
+- **Commit:** `a5eb4c8` "Feat: Shape for Header and Footer" — 7 commits on `master`. Uncommitted: `AGENT.md` plus default stub content added to the empty `Card.tsx` / `Gallery.tsx` files.
+- **Tooling:** `npx tsc -b` ✓ 0 errors · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓ succeeds.
 - **Notion board:** 39 tasks — 3 `Terminé`, 5 `En cours`, 31 `Pas commencé`. Ordered by `Étape` (1–39); subtasks are checklists (`- [x]` = done) and every card has success criteria; category lives in the `Catégorie` property, titles carry no tags.

@@ -1,5 +1,11 @@
+import Card from '../Card/Card';
+
 function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <Card></Card>
+    </div>
+  );
 }
 
 export default Home;
