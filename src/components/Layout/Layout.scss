@@ -4,6 +4,18 @@ body {
   margin: 0;
 }
 
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 .background {
   background-color: #313338;
+  color: #e6e6e6;
+  font-family: 'Montserrat', sans-serif;
 }

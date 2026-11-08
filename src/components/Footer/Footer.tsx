@@ -8,7 +8,7 @@ function Footer() {
         <Link to="/" className="nav-link">
           GitHub
         </Link>
-        <div>Email</div>
+        <div>Email : maxime.fels@gmail.com</div>
       </div>
     </footer>
   );

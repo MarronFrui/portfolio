@@ -1,26 +1,24 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import './Gallery.scss';
 
-export default function Gallery({ images }) {
+export default function Gallery({ images }: { images: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // entries[0].isIntersecting — your "visible" input
-        // where does it go? (there's exactly one state you decided on)
-      },
-      { threshold: 0.3 },
-    );
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect(); // the part that makes or breaks this pattern
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const cardRef = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return; // unmount / cleanup handled by observer lifecycle
+    const observer = new IntersectionObserver(([entry]) => setIsPlaying(entry.isIntersecting), {
+      threshold: 0.3,
+    });
+    observer.observe(node);
+    // React doesn't auto-disconnect here. return cleanup via a ref or store it.
+    return () => observer.disconnect();
   }, []);
 
   // <div ref={cardRef}> ... the big card
   return (
-    <>
-      <div className="carousel-container">
+    <div ref={cardRef} className={`carousel-container ${isPlaying ? 'is-playing' : ''}`}>
         {images.length > 1 && (
           <img
             className="carousel-arrow"
@@ -54,6 +52,5 @@ export default function Gallery({ images }) {
           </p>
         )}
       </div>
-    </>
   );
 }

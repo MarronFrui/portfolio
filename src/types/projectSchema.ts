@@ -1,4 +1,4 @@
-type Project = {
+export type Project = {
   id: string; // 'noita-livemap' — draggable into the URL
   title: { en: string; fr: string };
   summary: { en: string; fr: string }; // the card's one line

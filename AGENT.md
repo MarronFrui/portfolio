@@ -30,14 +30,14 @@ Repo: <https://github.com/MarronFrui/portfolio> — local path `/home/marron/wor
 
 ## 2. Tech stack (fixed, do not change)
 
-| Layer    | Choice                                          |
-| -------- | ----------------------------------------------- |
-| Build    | **Vite 8**                                      |
-| UI       | **React 19**                                    |
-| Language | **TypeScript ~7.0** (`strict` via `tsc -b`)     |
-| Routing  | **react-router-dom ^7.18**                      |
+| Layer    | Choice                                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Build    | **Vite 8**                                                                                                              |
+| UI       | **React 19**                                                                                                            |
+| Language | **TypeScript ~7.0** (`strict` via `tsc -b`)                                                                             |
+| Routing  | **react-router-dom ^7.18**                                                                                              |
 | Styling  | **SCSS** — plain-CSS migration is complete; global styles are being rebuilt (see the Current state of the code section) |
-| Lint     | **Oxlint** (`npm run lint`)                     |
+| Lint     | **Oxlint** (`npm run lint`)                                                                                             |
 
 Scripts: `npm run dev` · `npm run build` (`tsc -b && vite build`) · `npm run lint` · `npm run preview`.
 
@@ -85,10 +85,10 @@ Status counts are recorded under "Last verified" at the bottom of this file.
 
 ### Board vs. reality — discrepancies to resolve
 
-| Board says | Repo actually has | Action |
-| --- | --- | --- |
-| Route is **`/projects/:itemId`** | Router is mounted, but the detail route is **`/item/:id`** | Rename to `/projects/:itemId` — the board is authoritative |
-| ~~Configure **ESLint & Prettier**~~ | **Oxlint** stays (decided 2026-11-06) | Resolved — recorded on the step 7 card, now `Terminé` |
+| Board says                          | Repo actually has                                          | Action                                                     |
+| ----------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| Route is **`/projects/:itemId`**    | Router is mounted, but the detail route is **`/item/:id`** | Rename to `/projects/:itemId` — the board is authoritative |
+| ~~Configure **ESLint & Prettier**~~ | **Oxlint** stays (decided 2026-11-06)                      | Resolved — recorded on the step 7 card, now `Terminé`      |
 
 (Resolved since the last pass: setup tasks and the layout task now carry their true statuses.)
 
@@ -155,23 +155,9 @@ All three commands pass: `npx tsc -b` ✓, `npm run lint` ✓, `npm run build` �
 
 The earlier break (`App.tsx` importing deleted `App.scss`) was resolved by the owner: the import is gone, the file stayed deleted. `header` and `footer` have real styles now; `Layout.scss` still defines body margin and a dark background; the remaining component `.scss` files are empty placeholders.
 
-### Dead code and orphaned assets
-
-- **`src/App.scss`** — resolved: the import was removed and the template CSS file stayed deleted (commits `bf0336f`, `a5eb4c8`).
-- **`src/components/Header/Header.tsx` line 8** — `<img src="../src/assets/logo.svg" />`. Two bugs: the file has **never existed in git history**, and `../src/assets/…` is a runtime URL path rather than a module import. Also missing `alt`.
-- **Orphaned assets, referenced by nothing:** `src/assets/hero.png`, `src/assets/react.svg`, `src/assets/vite.svg`, `public/icons.svg`. (`public/favicon.svg` is still used by `index.html`.)
-
 ### Styling conventions (once global styles land)
 
 Prefer CSS custom properties over hardcoded values, and reuse the 1024px breakpoint that the existing component SCSS already uses. Component-level SCSS files (`Header.scss`, `Footer.scss`) currently exist but are empty.
-
----
-
-## 7. Next up
-
-**No blocker — the build is green.** `npm run build` succeeds.
-
-Next work is sequenced on the Notion board, under Task board above. Do not work from a plan in this file; the board is the source of truth for what comes next.
 
 ---
 

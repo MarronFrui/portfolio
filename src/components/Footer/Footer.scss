@@ -1,10 +1,41 @@
-.footer-content {
-  max-height: 20%;
-  height: 100%;
+.footer {
+  margin-top: auto;
   padding: 2rem;
+  background: #25272c;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #b8b8b8;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-content a,
+.footer-content div {
+  color: #d9d9d9;
   text-decoration: none;
-  color: white;
-  font-family: Monsterrat;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-content a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-copy {
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.8rem;
+  color: #8a8a8a;
 }
