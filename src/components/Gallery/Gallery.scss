@@ -4,6 +4,26 @@
   justify-content: center;
   gap: 1.25rem;
   padding: 1rem 0;
+  perspective: 1600px;
+}
+
+.carousel-ring {
+  --card-width: 760px;
+
+  position: relative;
+  width: var(--card-width);
+  height: 520px;
+  transform-style: preserve-3d;
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.7s ease, opacity 0.4s ease;
+}
+
+.carousel-slide:not(.is-front) {
+  opacity: 0.55;
 }
 
 .carousel-arrow {
