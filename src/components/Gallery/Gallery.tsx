@@ -22,27 +22,31 @@ export default function Gallery({ projects }: { projects: Project[] }) {
   const next = () => setCurrentIndex((i) => (i + 1) % projects.length);
 
   return (
-    <div ref={cardRef} className={`carousel-container ${isPlaying ? 'is-playing' : ''}`}>
-      <img
-        className="carousel-arrow"
-        src="/src/assets/arrow_carousel_left.png"
-        alt="previous project"
-        onClick={prev}
-      />
+    <>
+      <div className="carousel-container">
+        <div ref={cardRef} className={`carousel ${isPlaying ? 'is-playing' : ''}`}>
+          <img
+            className="carousel-arrow"
+            src="/src/assets/arrow_carousel_left.png"
+            alt="previous project"
+            onClick={prev}
+          />
 
-      {projects.map((project) => (
-        <Card key={project.id} project={project} />
-      ))}
+          {projects.map((project) => (
+            <Card key={project.id} project={project} />
+          ))}
 
-      <img
-        className="carousel-arrow"
-        src="/src/assets/arrow_carousel_right.png"
-        alt="next project"
-        onClick={next}
-      />
-      <p className="carousel-length">
-        {currentIndex + 1}/{projects.length}
-      </p>
-    </div>
+          <img
+            className="carousel-arrow"
+            src="/src/assets/arrow_carousel_right.png"
+            alt="next project"
+            onClick={next}
+          />
+        </div>
+        <p className="carousel-length">
+          {currentIndex + 1}/{projects.length}
+        </p>
+      </div>
+    </>
   );
 }

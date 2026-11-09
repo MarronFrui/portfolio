@@ -3,9 +3,12 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   width: 100%;
-  max-width: 760px;
+  min-width: 720px;
+  max-width: 960px;
 }
 
 .card:hover {
