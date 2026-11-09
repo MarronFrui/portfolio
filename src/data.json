@@ -23,5 +23,53 @@
     "repoUrl": "https://github.com/MarronFrui/kasa-openclassroom",
     "status": "done",
     "featured": true
+  },
+  {
+    "id": "mon-vieux-grimoire",
+    "category": "professional",
+    "title": { "en": "Mon Vieux Grimoire", "fr": "Mon Vieux Grimoire" },
+    "summary": {
+      "en": "A book-rating platform backed by an Express REST API — shows full-stack range.",
+      "fr": "Une plateforme de notation de livres adossée à une API REST Express — montre la range full-stack."
+    },
+    "description": {
+      "en": "Mon Vieux Grimoire is an OpenClassrooms project focused on the back end: an Express + MongoDB REST API powering a book-rating site. Authentication with hashed passwords and JSON Web Tokens, CRUD on books, a rating system with user-unique votes, and image optimization with Sharp. The provided React front end consumes the API.",
+      "fr": "Mon Vieux Grimoire est un projet OpenClassrooms centré sur le back end : une API REST Express + MongoDB qui alimente un site de notation de livres. Authentification avec mots de passe hachés et JSON Web Tokens, CRUD sur les livres, système de notation avec votes uniques par utilisateur, et optimisation des images avec Sharp. Le front end React fourni consomme l'API."
+    },
+    "stack": ["Express", "Node.js", "MongoDB", "JWT"],
+    "cover": {
+      "src": "/src/assets/mon-vieux-grimoire.png",
+      "alt": {
+        "en": "Preview of the Mon Vieux Grimoire book rating app",
+        "fr": "Aperçu de l'application de notation de livres Mon Vieux Grimoire"
+      }
+    },
+    "repoUrl": "https://github.com/MarronFrui/mon-vieux-grimoire",
+    "status": "done",
+    "featured": false
+  },
+  {
+    "id": "site-sophie-bluel",
+    "category": "professional",
+    "title": { "en": "Sophie Bluel", "fr": "Sophie Bluel" },
+    "summary": {
+      "en": "An architect's portfolio website in vanilla JavaScript — a classic OC front-end project.",
+      "fr": "Le site portfolio d'une architecte en JavaScript vanilla — un projet front-end OC classique."
+    },
+    "description": {
+      "en": "Sophie Bluel is an OpenClassrooms project: the portfolio website of an architect, built with vanilla JavaScript. A dynamic works gallery with category filters, an admin login that unlocks an edit mode with modals to add or delete projects, and communication with a REST API through fetch. HTML, Sass and JavaScript only — no framework.",
+      "fr": "Sophie Bluel est un projet OpenClassrooms : le site portfolio d'une architecte, réalisé en JavaScript vanilla. Une galerie dynamique des travaux avec filtres par catégorie, une connexion admin qui débloque un mode édition avec modales pour ajouter ou supprimer des projets, et la communication avec une API REST via fetch. HTML, Sass et JavaScript uniquement — sans framework."
+    },
+    "stack": ["JavaScript", "Sass", "HTML", "Fetch API"],
+    "cover": {
+      "src": "/src/assets/sophie-bluel.png",
+      "alt": {
+        "en": "Preview of the Sophie Bluel architect portfolio website",
+        "fr": "Aperçu du site portfolio de l'architecte Sophie Bluel"
+      }
+    },
+    "repoUrl": "https://github.com/MarronFrui/Site-sophie-bluel-educational",
+    "status": "done",
+    "featured": false
   }
 ]
