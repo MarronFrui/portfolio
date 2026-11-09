@@ -29,7 +29,11 @@ export default function Gallery({ projects }: { projects: Project[] }) {
         alt="previous project"
         onClick={prev}
       />
-      <Card project={projects[currentIndex]} isPlaying={isPlaying} />
+
+      {projects.map((project) => (
+        <Card key={project.id} project={project} />
+      ))}
+
       <img
         className="carousel-arrow"
         src="/src/assets/arrow_carousel_right.png"

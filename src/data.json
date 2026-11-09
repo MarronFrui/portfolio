@@ -1,0 +1,27 @@
+[
+  {
+    "id": "kasa",
+    "category": "professional",
+    "title": { "en": "Kasa", "fr": "Kasa" },
+    "summary": {
+      "en": "A rental-listing web app built as an educational project with React.",
+      "fr": "Une application web de locations immobilières, projet pédagogique en React."
+    },
+    "description": {
+      "en": "Kasa is an OpenClassrooms project: a rental marketplace in the spirit of Airbnb. Housing listings with galleries, detail pages and a router-based navigation, structured as reusable React components with Sass styling.",
+      "fr": "Kasa est un projet OpenClassrooms : un site de locations immobilières dans l'esprit d'Airbnb. Des annonces de logement avec galeries, des pages de détail et une navigation par routeur, structurés en composants React réutilisables stylés en Sass."
+    },
+    "stack": ["React", "Sass", "React Router", "Vite"],
+    "cover": {
+      "src": "/src/assets/kasa.png",
+      "alt": {
+        "en": "Preview of the Kasa rental listing app",
+        "fr": "Aperçu de l'application de locations Kasa"
+      }
+    },
+    "video": "/src/assets/videos/kasa.mp4",
+    "repoUrl": "https://github.com/MarronFrui/kasa-openclassroom",
+    "status": "done",
+    "featured": true
+  }
+]

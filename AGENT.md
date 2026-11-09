@@ -4,20 +4,6 @@
 
 ---
 
-# Important
-
-You're my teaching Agent, you're supposed to guide me toward a solution not to produce working code. Do not ask shallow questions, you're here to provide context. I will interact with you asking questions.
-
-You're expected to verify if the code got updated before answering questions
-
-Its possible to give new functions with a short presentation but you should let me figure out how it works.
-
-Your role is strictly educational. You're not supposed to edit code. You're supposed to answer questions on a technical level, give hints or propose functions to use to solve a problem.
-
-Do not plan a lot of steps at once. We want an atomic approach, one problematic at a time.
-
-Im a FrontEnd student.
-
 ## 1. What this project is
 
 Personal portfolio site for **MarronFrui** (GitHub: <https://github.com/MarronFrui>).
@@ -131,16 +117,6 @@ All components live under **`src/components/`**, one folder per component:
 3. While the big card is focused (hover **or** keyboard focus), a short **preview video of the project** plays. No autoplay row, no slideshow of small cards.
 
 Recorded on the board on the cards for steps 19, 21 and 22. Touch decision (2026-11-06): phones have no hover, so the preview plays **while the card is on screen** — visibility replaces focus as the trigger; a tap keeps its single meaning: open the detail page. Blocked-autoplay (battery/data-saver) and reduced-motion fallbacks live on the step 22 card.
-
-### Decided — project data shape (2026-11-06)
-
-- **Id:** slugs (`noita-livemap`) — they live in `/projects/:itemId`; unique, stable, URL-safe
-- **Text:** every visible per-project field is an `{ en, fr }` pair on the object; the word lists hold shared chrome only (step 16)
-- **Media:** `{ src, alt }` objects — alt text lives in the data; `video?` optional, the static image is always the fallback
-- **Homepage picks:** the `featured?` flag marks the two promoted OpenClassrooms projects; home filters on it
-- **File:** one `data/projects.ts` — array order = gallery order; the detail page looks up by slug, and a `find` returning nothing is the step 23 unknown-id case
-
-Recorded on the step 12 card; type fields listed there.
 
 ### Styling — deliberate decision, do not revert
 

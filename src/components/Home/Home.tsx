@@ -1,5 +1,9 @@
 import Gallery from '../Gallery/Gallery';
 import './Home.scss';
+import dataJson from '../../data.json';
+import type { Project } from '../../types/projectSchema';
+
+const data = dataJson as Project[];
 
 function Home() {
   return (
@@ -20,13 +24,13 @@ function Home() {
       <section className="home-section">
         <h2>Professional projects</h2>
         <div className="home-gallery">
-          <Gallery projects={[]} />
+          <Gallery projects={data.filter((p) => p.category === 'professional')} />
         </div>
       </section>
       <section className="home-section">
         <h2>Personal projects</h2>
         <div className="home-gallery">
-          <Gallery projects={[]} />
+          <Gallery projects={data.filter((p) => p.category === 'personal')} />
         </div>
       </section>
     </div>
