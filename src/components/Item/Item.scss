@@ -1,0 +1,160 @@
+.item {
+  max-width: 960px;
+  margin: 2.5rem auto 4rem;
+  padding: 0 1.5rem;
+  color: #e6e6e6;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.item-card {
+  background: #3a3d44;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.item-media {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.item-image,
+.item-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 2rem 0.5rem;
+}
+
+.item-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.item-badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.item-badge,
+.item-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.item-badge--personal {
+  background: rgba(228, 107, 76, 0.2);
+  color: #ffb59f;
+}
+
+.item-badge--professional {
+  background: rgba(79, 158, 255, 0.18);
+  color: #9fc9ff;
+}
+
+.item-status--done {
+  background: rgba(60, 167, 69, 0.2);
+  color: #a5e2ab;
+}
+
+.item-status--in-progress {
+  background: rgba(236, 200, 75, 0.18);
+  color: #f4e3a1;
+}
+
+.item-summary,
+.item-description {
+  margin: 0 2rem;
+  color: #c9c9c9;
+  line-height: 1.6;
+}
+
+.item-summary {
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+.item-description {
+  margin-bottom: 0.25rem;
+}
+
+.item-subtitle {
+  margin: 1.75rem 2rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.item-stack {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 2rem;
+  padding: 0;
+}
+
+.item-tech {
+  padding: 0.3rem 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #e6e6e6;
+}
+
+.item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.75rem 2rem 2rem;
+}
+
+.item-button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background: #d96c56;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.25s ease;
+}
+
+.item-button:hover {
+  background: #c25a46;
+}
+
+.item-button--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #e6e6e6;
+}
+
+.item-button--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.item-missing {
+  text-align: center;
+  color: #c9c9c9;
+}

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6.25rem;
+  gap: 10rem;
   padding: 1rem 0;
   perspective: 1600px;
 }
@@ -22,6 +22,13 @@
   transition:
     transform 0.7s ease,
     opacity 0.4s ease;
+  // The ring is 3D but hit-testing is 2D: without this, the
+  // overlapping side cards steal clicks (and focus) from the front card.
+  pointer-events: none;
+}
+
+.carousel-slide.is-front {
+  pointer-events: auto;
 }
 
 .carousel-slide:not(.is-front) {

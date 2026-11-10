@@ -1,4 +1,14 @@
+.card-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  outline-offset: 6px;
+}
+
 .card {
+  cursor: pointer;
+  height: 100%;
   background: #3a3d44;
   border-radius: 16px;
   overflow: hidden;
