@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 6.25rem;
   padding: 1rem 0;
   perspective: 1600px;
 }
@@ -19,7 +19,9 @@
 .carousel-slide {
   position: absolute;
   inset: 0;
-  transition: transform 0.7s ease, opacity 0.4s ease;
+  transition:
+    transform 0.7s ease,
+    opacity 0.4s ease;
 }
 
 .carousel-slide:not(.is-front) {

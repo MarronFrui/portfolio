@@ -44,6 +44,7 @@
         "fr": "Aperçu de l'application de notation de livres Mon Vieux Grimoire"
       }
     },
+    "video": "/src/assets/videos/grimoire.mp4",
     "repoUrl": "https://github.com/MarronFrui/mon-vieux-grimoire",
     "status": "done",
     "featured": false
@@ -68,8 +69,81 @@
         "fr": "Aperçu du site portfolio de l'architecte Sophie Bluel"
       }
     },
+    "video": "/src/assets/videos/sophiebluel.mp4",
     "repoUrl": "https://github.com/MarronFrui/Site-sophie-bluel-educational",
     "status": "done",
+    "featured": false
+  },
+  {
+    "id": "noitamap",
+    "category": "personal",
+    "title": { "en": "Noita Livemap", "fr": "Noita Livemap" },
+    "summary": {
+      "en": "A live interactive map for Noita that tracks your player position in real time.",
+      "fr": "Une carte interactive pour Noita qui suit la position du joueur en temps réel."
+    },
+    "description": {
+      "en": "Noita Livemap is a fork of the community noitamap viewer, extended with a live position tracker: a Noita Lua mod streams seed, biome and coordinates over WebSocket to the map, driving a red player marker that stays centered on your run. Placeholder entry — more screenshots and a full write-up are coming.",
+      "fr": "Noita Livemap est un fork du visualiseur communautaire noitamap, étendu avec un suiveur de position en temps réel : un mod Lua de Noita transmet la seed, le biome et les coordonnées en WebSocket vers la carte, pour un marqueur rouge qui reste centré sur votre partie. Entrée provisoire — d'autres captures et un descriptif complet arrivent."
+    },
+    "stack": ["JavaScript", "Vite", "WebSocket", "Lua"],
+    "cover": {
+      "src": "/src/assets/noitamap.png",
+      "alt": {
+        "en": "Screenshot of the Noita Livemap viewer showing the world map and seed panel",
+        "fr": "Capture d'écran de Noita Livemap montrant la carte du monde et le panneau de seed"
+      }
+    },
+    "repoUrl": "https://github.com/MarronFrui/noita-livemap",
+    "status": "in-progress",
+    "featured": false
+  },
+  {
+    "id": "pokemon-farmer",
+    "category": "personal",
+    "title": { "en": "Pokémon Farmer", "fr": "Pokémon Farmer" },
+    "summary": {
+      "en": "A program that will spam encounter to find a shiny pokemons on GBA versions",
+      "fr": "Un programme qui cherche des pokémon shiny sur les versions GBA"
+    },
+    "description": {
+      "en": "Pokémon Farmer is a shiny hunting bot: it runs Pokémon Emerald in the mGBA emulator, captures the game window on Windows with Win32 APIs, and uses OpenCV-based battle detection to automate the hunts. Placeholder entry — the full write-up and a screenshot are coming.",
+      "fr": "Pokémon Farmer est un bot de chasse aux shiny : il fait tourner Pokémon Émeraude dans l'émulateur mGBA, capture la fenêtre du jeu via les API Win32 sous Windows et s'appuie sur une détection de combat avec OpenCV pour automatiser les chasses. Entrée provisoire — le descriptif complet et une capture arrivent."
+    },
+    "stack": ["Python", "OpenCV", "Win32 API", "mGBA"],
+    "cover": {
+      "src": "/src/assets/pokemonFarmer.png",
+      "alt": {
+        "en": "Placeholder preview for the Pokémon Farmer project",
+        "fr": "Aperçu provisoire du projet Pokémon Farmer"
+      }
+    },
+    "repoUrl": "https://github.com/MarronFrui/pokemon-farmer",
+    "status": "in-progress",
+    "featured": false
+  },
+  {
+    "id": "projectm",
+    "category": "personal",
+    "title": { "en": "MaxFlix", "fr": "MaxFlix" },
+    "summary": {
+      "en": "A self-made Netflix-style streaming app that plays your NAS media library.",
+      "fr": "Une application de streaming maison dans le style Netflix, qui lit la médiathèque de son NAS."
+    },
+    "description": {
+      "en": "MaxFlix is a self-made Jellyfin-style app: a React front end with a Netflix-like catalog of 1600+ titles, posters and metadata scraped from TMDB, a user login with a wishlist, captions, and an Express server that streams the actual videos from a NAS. Placeholder entry — the full write-up is coming.",
+      "fr": "MaxFlix est une app maison à la Jellyfin : un front React avec un catalogue de plus de 1600 œuvres style Netflix, affiches et métadonnées extraites de TMDB, une connexion utilisateur avec wishlist, les sous-titres, et un serveur Express qui diffuse les vidéos réelles depuis un NAS. Entrée provisoire — le descriptif complet arrive."
+    },
+    "stack": ["React", "Express", "TypeScript", "Vite"],
+    "cover": {
+      "src": "/src/assets/projectm.png",
+      "alt": {
+        "en": "Screenshot of the MaxFlix catalog grid with movie and show posters",
+        "fr": "Capture d'écran de la grille de catalogue MaxFlix avec les affiches de films et séries"
+      }
+    },
+    "repoUrl": "https://github.com/MarronFrui/ProjectM",
+    "status": "in-progress",
     "featured": false
   }
 ]
