@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <Link to="/" className="nav-link">
+        <Link to="https://github.com/MarronFrui" className="nav-link">
           GitHub
         </Link>
         <div>Email : maxime.fels@gmail.com</div>
