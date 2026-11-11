@@ -1,12 +1,144 @@
 @use 'variables' as *;
 
+// Light theme by default; the dark block below follows the system preference.
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #f6f6f8;
+  --color-bg-alt: #ececf0;
+  --color-surface: #ffffff;
+  --color-heading: #16171a;
+  --color-text: #2b2d31;
+  --color-text-muted: #55585f;
+  --color-text-faint: #85888f;
+  --color-accent: #c9553f;
+  --color-accent-hover: #b24632;
+  --color-accent-contrast: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-chip: rgba(0, 0, 0, 0.05);
+  --color-shadow: rgba(20, 20, 40, 0.12);
+  --color-header-bg: rgba(246, 246, 248, 0.75);
+  --color-glow: rgba(124, 92, 255, 0.08);
+  --color-contrast-bg: #16171a;
+  --color-contrast-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #313338;
+    --color-bg-alt: #25272c;
+    --color-surface: #3a3d44;
+    --color-heading: #ffffff;
+    --color-text: #e6e6e6;
+    --color-text-muted: #c4c4c4;
+    --color-text-faint: #8a8a8a;
+    --color-accent: #d96c56;
+    --color-accent-hover: #e5806b;
+    --color-accent-contrast: #ffffff;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-chip: rgba(255, 255, 255, 0.06);
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-header-bg: rgba(49, 51, 56, 0.72);
+    --color-glow: rgba(124, 92, 255, 0.14);
+    --color-contrast-bg: #f2f2f2;
+    --color-contrast-text: #16171a;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  // Anchored sections land below the sticky header instead of under it.
+  scroll-padding-top: $header-height;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   background-color: $color-bg;
   color: $color-text;
   font-family: $font-main;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
   flex: 1;
+}
+
+// Buttons, shared by the hero and the cards.
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.3rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: $color-accent;
+  color: $color-accent-contrast;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.button:hover {
+  background: $color-accent-hover;
+}
+
+.button--ghost {
+  background: transparent;
+  border-color: $color-border;
+  color: $color-text;
+}
+
+.button--ghost:hover {
+  background: $color-chip;
+}
+
+// Inverted colours: dark button on the light theme, light button on the dark theme.
+.button--contrast {
+  background: $color-contrast-bg;
+  color: $color-contrast-text;
+}
+
+.button--contrast:hover {
+  background: $color-contrast-bg;
+  opacity: 0.85;
+}
+
+// Era labels shown above a project title: AI-first, or pre-AI era.
+.era-label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: $gradient-ai;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 18px rgba(124, 92, 255, 0.35);
+}
+
+// Made before AI tools: a quiet outlined label instead of the gradient.
+.era-label--pre-ai {
+  background: transparent;
+  border: 1px dashed $color-text-faint;
+  color: $color-text-muted;
+  box-shadow: none;
 }

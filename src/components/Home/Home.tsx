@@ -1,32 +1,62 @@
-import Gallery from '../Gallery/Gallery';
-import SkillBar from '../SkillBar/SkillBar';
+import { useState } from 'react';
+import Card from '../Card/Card';
+import PersonalProjects from '../PersonalProjects/PersonalProjects';
+import ProjectModal from '../ProjectModal/ProjectModal';
 import { projects } from '../../data/projects';
-import { skills } from '../../data/skills';
+import { useLanguage } from '../../i18n/languageContext';
+import type { Project } from '../../types/project';
 import './Home.scss';
 
+// Drop the PDF at public/cv.pdf; the button downloads it under this name.
+const CV_URL = '/cv.pdf';
+const CV_FILE_NAME = 'Maxime-Fels-CV.pdf';
+
+const personal = projects.filter((p) => p.category === 'personal');
+const openclassrooms = projects.filter((p) => p.category === 'openclassrooms');
+
 function Home() {
+  const [openProject, setOpenProject] = useState<Project | null>(null);
+  const { translate } = useLanguage();
+
   return (
     <div className="home">
-      <section className="home-title">
+      <section id="home" className="hero">
         <h1>Maxime Fels</h1>
-        <p>Front-end developer | building things for the web.</p>
+        <p className="hero-tagline">{translate('HERO_TAGLINE')}</p>
+        <div className="hero-actions">
+          <a className="button" href={CV_URL} download={CV_FILE_NAME}>
+            {translate('HERO_DOWNLOAD_CV')}
+          </a>
+          <a className="button button--ghost" href="#projects">
+            {translate('HERO_SEE_PROJECTS')}
+          </a>
+        </div>
       </section>
-      <section className="home-section">
-        <h2>Skills</h2>
-        <div className="home-skills">
-          {skills.map((skill) => (
-            <SkillBar key={skill.name} skill={skill} />
+
+      {/* Placeholder content: replace the ABOUT_ texts in src/i18n/en.json and fr.json. */}
+      <section id="about" className="home-section about">
+        <h2>{translate('ABOUT_TITLE')}</h2>
+        <p>{translate('ABOUT_PARAGRAPH_1')}</p>
+        <p>{translate('ABOUT_PARAGRAPH_2')}</p>
+      </section>
+
+      {/* Preferred stack section goes here later. */}
+
+      <section id="projects" className="home-section">
+        <h2>{translate('SECTION_PERSONAL_PROJECTS')}</h2>
+        <PersonalProjects projects={personal} />
+      </section>
+
+      <section id="openclassrooms" className="home-section">
+        <h2>{translate('SECTION_OPENCLASSROOMS_PROJECTS')}</h2>
+        <div className="project-grid">
+          {openclassrooms.map((project) => (
+            <Card key={project.id} project={project} onOpen={setOpenProject} />
           ))}
         </div>
       </section>
-      <section className="home-section">
-        <h2>Professional projects</h2>
-        <Gallery projects={projects.filter((p) => p.category === 'professional')} />
-      </section>
-      <section className="home-section">
-        <h2>Personal projects</h2>
-        <Gallery projects={projects.filter((p) => p.category === 'personal')} />
-      </section>
+
+      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
     </div>
   );
 }

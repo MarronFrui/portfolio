@@ -3,49 +3,72 @@
 .home {
   max-width: $content-width;
   margin: 0 auto;
-  padding: 2rem 1.5rem 3rem;
+  padding: 0 1.5rem 4rem;
 }
 
-.home-title {
-  padding: 3rem 0 2rem;
+// Hero
+
+.hero {
+  padding: 6rem 0 4rem;
   text-align: center;
 }
 
-.home-title h1 {
-  margin: 0 0 0.5rem;
-  color: $color-white;
-  font-size: 2.5rem;
+.hero h1 {
+  margin: 0 0 0.75rem;
+  color: $color-heading;
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
 }
 
-.home-title p {
+.hero-tagline {
   max-width: 640px;
   margin: 0 auto;
-  color: $color-text-dim;
-  font-size: 1.1rem;
+  color: $color-text-muted;
+  font-size: 1.15rem;
   line-height: 1.6;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+// Sections
+
 .home-section {
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 .home-section h2 {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: $color-white;
-  font-size: 1.5rem;
+  border-bottom: 1px solid $color-border;
+  color: $color-heading;
+  font-size: 1.6rem;
 }
 
-.home-skills {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  max-width: 300px;
+.about p {
+  max-width: 760px;
+  margin: 0 0 1rem;
+  color: $color-text-muted;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
 }
 
 @media (max-width: $breakpoint-mobile) {
-  .home-skills {
-    gap: 0.6rem;
+  .hero {
+    padding: 4rem 0 2.5rem;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
   }
 }

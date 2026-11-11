@@ -1,0 +1,247 @@
+@use '../../styles/variables' as *;
+
+.personal {
+  // Soft glow behind the section, like the reference design.
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, $color-glow, transparent 70%);
+}
+
+// Thumbnails
+
+.personal-tiles {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(200px, 22.5%);
+  gap: 1rem;
+  margin: 0;
+  padding: 0.5rem 0.25rem 1rem;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  li {
+    scroll-snap-align: start;
+  }
+}
+
+.personal-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 2px solid $color-border;
+  border-radius: 8px;
+  overflow: hidden;
+  background: $color-bg-alt;
+  cursor: pointer;
+  box-shadow: 0 4px 12px $color-shadow;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.personal-tile:hover,
+.personal-tile:focus-visible {
+  transform: translateY(-3px);
+}
+
+.personal-tile.is-selected {
+  border-color: $color-accent;
+}
+
+// Main language, shown over a dark veil on hover.
+.personal-tile-hover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 10, 14, 0.75);
+  color: #ffffff;
+  font-family: $font-main;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.personal-tile:hover .personal-tile-hover,
+.personal-tile:focus-visible .personal-tile-hover {
+  opacity: 1;
+}
+
+.personal-tile-name {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 1.5rem 0.75rem 0.5rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  color: #ffffff;
+  font-family: $font-main;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+// Showcase of the picked project
+
+.showcase {
+  position: relative;
+  padding-top: 1rem;
+  animation: showcase-in 0.4s ease;
+}
+
+@keyframes showcase-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.showcase-header {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.showcase-title {
+  margin: 0.5rem 0 0;
+  color: $color-accent;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-weight: 200;
+  letter-spacing: -0.01em;
+}
+
+.showcase-stack {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.2rem 0.7rem;
+    border: 1px solid $color-border;
+    border-radius: 999px;
+    color: $color-text;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}
+
+.showcase-github {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+}
+
+.showcase-media {
+  position: relative;
+  width: 70%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  background: $color-bg-alt;
+  box-shadow: 0 12px 36px $color-shadow;
+
+  img,
+  video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  video {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &.has-video:hover video {
+    opacity: 1;
+  }
+}
+
+.showcase-status {
+  margin: 0.75rem 0 0;
+  color: $color-text-faint;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.showcase-text {
+  max-width: 65ch;
+  margin: 2.5rem auto 0;
+}
+
+.showcase-summary {
+  margin: 0 0 1.5rem;
+  color: $color-text-muted;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  text-align: justify;
+  text-indent: 1.5rem;
+  hyphens: auto;
+}
+
+.showcase-subtitle {
+  margin: 0 0 0.6rem;
+  color: $color-text-faint;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.showcase-role {
+  margin: 0 0 1.5rem;
+  padding-left: 1.2rem;
+  color: $color-text;
+  line-height: 1.7;
+
+  li::marker {
+    color: $color-accent;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .personal-tiles {
+    grid-auto-columns: 40%;
+  }
+
+  .showcase-github {
+    position: static;
+    display: flex;
+    width: fit-content;
+    margin: 0 auto 1.5rem;
+  }
+
+  .showcase-media {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase {
+    animation: none;
+  }
+
+  .personal-tile {
+    transition: none;
+  }
+
+  .personal-tile:hover,
+  .personal-tile:focus-visible {
+    transform: none;
+  }
+}

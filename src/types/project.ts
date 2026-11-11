@@ -1,13 +1,17 @@
-export type LocalizedText = { en: string; fr: string };
+import type { TranslationKey } from '../i18n/translate';
 
+// Text fields hold keys of src/i18n/en.json and fr.json, not the text itself.
 export type Project = {
   id: string;
-  category: 'professional' | 'personal';
-  title: LocalizedText;
-  summary: LocalizedText;
-  description: LocalizedText;
+  category: 'openclassrooms' | 'personal';
+  // Label shown on the project: built AI-first, or before AI tools.
+  era?: 'ai-first' | 'pre-ai';
+  title: TranslationKey;
+  summary: TranslationKey;
+  // My actual role and what I did on the project, one key per bullet.
+  role: TranslationKey[];
   stack: string[];
-  cover: { src: string; alt: LocalizedText };
+  cover: { src: string; alt: TranslationKey };
   video?: string;
   repoUrl?: string;
   liveUrl?: string;

@@ -2,7 +2,7 @@ import './Footer.scss';
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer id="contact" className="footer">
       <div className="footer-content">
         <a
           href="https://github.com/MarronFrui"

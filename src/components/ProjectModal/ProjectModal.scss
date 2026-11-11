@@ -1,0 +1,142 @@
+@use '../../styles/variables' as *;
+
+// The page behind does not scroll while the modal is open.
+html:has(.modal[open]) {
+  overflow: hidden;
+}
+
+.modal {
+  width: min(900px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: 18px;
+  background: $color-surface;
+  color: $color-text;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  overflow: auto;
+}
+
+.modal::backdrop {
+  background: rgba(10, 10, 14, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal[open] {
+  animation: modal-in 0.25s ease;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.modal-content {
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-media {
+  aspect-ratio: 16 / 9;
+  background: #000000;
+
+  img,
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.modal-body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.modal-title {
+  margin: 0 0 0.5rem;
+  color: $color-heading;
+  font-size: 1.8rem;
+}
+
+.modal-summary {
+  margin: 0 0 1.5rem;
+  color: $color-text-muted;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.modal-subtitle {
+  margin: 0 0 0.5rem;
+  color: $color-text-faint;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.modal-role {
+  margin: 0 0 1.5rem;
+  padding-left: 1.2rem;
+  line-height: 1.7;
+
+  li::marker {
+    color: $color-accent;
+  }
+}
+
+.modal-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.25rem 0.75rem;
+    background: $color-chip;
+    border: 1px solid $color-border;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .modal-body {
+    padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open] {
+    animation: none;
+  }
+}
