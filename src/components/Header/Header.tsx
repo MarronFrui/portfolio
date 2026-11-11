@@ -1,5 +1,5 @@
-import { useLanguage } from '../../i18n/languageContext';
-import type { TranslationKey } from '../../i18n/translate';
+import { useLanguage } from '../../translation/languageContext';
+import type { TranslationKey } from '../../translation/translate';
 import './Header.scss';
 
 // Each link scrolls to a section id on the page (smooth scroll is set in global.scss).
@@ -7,7 +7,7 @@ const links: { href: string; label: TranslationKey }[] = [
   { href: '#home', label: 'NAV_HOME' },
   { href: '#about', label: 'NAV_ABOUT' },
   { href: '#projects', label: 'NAV_PROJECTS' },
-  { href: '#openclassrooms', label: 'NAV_OPENCLASSROOMS' },
+  { href: '#study-projects', label: 'NAV_STUDY_PROJECTS' },
   { href: '#contact', label: 'NAV_CONTACT' },
 ];
 

@@ -1,6 +1,6 @@
 # Portfolio — Maxime Fels
 
-My personal portfolio: a single page (hero, about, personal projects, OpenClassrooms projects) whose header links scroll to each section. Personal projects are picked from a row of thumbnails and shown large; OpenClassrooms cards play a preview video on hover and open a detail view on click. The theme follows the system light/dark preference.
+My personal portfolio: a single page (hero, about, personal projects, study projects) whose header links scroll to each section. Personal projects are picked from a row of thumbnails and shown large; study project cards play a preview video on hover and open a detail view on click. The theme follows the system light/dark preference.
 
 Built with React 19, TypeScript, Sass and Vite.
 
@@ -22,17 +22,17 @@ src/
   App.tsx
   components/       one folder per component (.tsx + .scss)
   data/             projects (text fields are translation keys)
-  i18n/             en.json, fr.json and translate()
+  translation/      en.json, fr.json and translate()
   types/            TypeScript types
   styles/           global styles and Sass variables
   assets/           images and videos
 ```
 
-To add a project, add an entry in `src/data/projects.ts` and import its images there. Its text goes in `src/i18n/en.json` and `src/i18n/fr.json`.
+To add a project, add an entry in `src/data/projects.ts` and import its images there. Its text goes in `src/translation/en.json` and `src/translation/fr.json`.
 
 ## Translations
 
-All text lives in two flat files, `src/i18n/en.json` and `src/i18n/fr.json`: one key, one string. In a component, `const { translate } = useLanguage();` then `translate('NAV_HOME')`.
+All text lives in two flat files, `src/translation/en.json` and `src/translation/fr.json`: one key, one string. In a component, `const { translate } = useLanguage();` then `translate('NAV_HOME')`.
 
 The site starts in the browser's language and the FR / EN toggle in the header overrides it (saved in localStorage). The build fails if `fr.json` is missing a key that `en.json` has.
 

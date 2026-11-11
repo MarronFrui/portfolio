@@ -11,7 +11,7 @@ import projectmCover from '../assets/projectm.png';
 import aimTrainingCover from '../assets/aim-training.jpg';
 import inputPerSecondCover from '../assets/input-per-second.jpg';
 
-// All text lives in src/i18n/en.json and fr.json; these are the keys.
+// All text lives in src/translation/en.json and fr.json; these are the keys.
 // The role bullets are drafts: rewrite them with what you actually did.
 export const projects: Project[] = [
   {
@@ -33,7 +33,7 @@ export const projects: Project[] = [
   },
   {
     id: 'kasa',
-    category: 'openclassrooms',
+    category: 'study',
     title: 'PROJECT_KASA_TITLE',
     summary: 'PROJECT_KASA_SUMMARY',
     role: [
@@ -50,7 +50,7 @@ export const projects: Project[] = [
   },
   {
     id: 'mon-vieux-grimoire',
-    category: 'openclassrooms',
+    category: 'study',
     title: 'PROJECT_MON_VIEUX_GRIMOIRE_TITLE',
     summary: 'PROJECT_MON_VIEUX_GRIMOIRE_SUMMARY',
     role: [
@@ -67,7 +67,7 @@ export const projects: Project[] = [
   },
   {
     id: 'site-sophie-bluel',
-    category: 'openclassrooms',
+    category: 'study',
     title: 'PROJECT_SITE_SOPHIE_BLUEL_TITLE',
     summary: 'PROJECT_SITE_SOPHIE_BLUEL_SUMMARY',
     role: [

@@ -3,7 +3,7 @@ import Card from '../Card/Card';
 import PersonalProjects from '../PersonalProjects/PersonalProjects';
 import ProjectModal from '../ProjectModal/ProjectModal';
 import { projects } from '../../data/projects';
-import { useLanguage } from '../../i18n/languageContext';
+import { useLanguage } from '../../translation/languageContext';
 import type { Project } from '../../types/project';
 import './Home.scss';
 
@@ -12,7 +12,7 @@ const CV_URL = '/cv.pdf';
 const CV_FILE_NAME = 'Maxime-Fels-CV.pdf';
 
 const personal = projects.filter((p) => p.category === 'personal');
-const openclassrooms = projects.filter((p) => p.category === 'openclassrooms');
+const study = projects.filter((p) => p.category === 'study');
 
 function Home() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
@@ -33,7 +33,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Placeholder content: replace the ABOUT_ texts in src/i18n/en.json and fr.json. */}
+      {/* Placeholder content: replace the ABOUT_ texts in src/translation/en.json and fr.json. */}
       <section id="about" className="home-section about">
         <h2>{translate('ABOUT_TITLE')}</h2>
         <p>{translate('ABOUT_PARAGRAPH_1')}</p>
@@ -47,10 +47,10 @@ function Home() {
         <PersonalProjects projects={personal} />
       </section>
 
-      <section id="openclassrooms" className="home-section">
-        <h2>{translate('SECTION_OPENCLASSROOMS_PROJECTS')}</h2>
+      <section id="study-projects" className="home-section">
+        <h2>{translate('SECTION_STUDY_PROJECTS')}</h2>
         <div className="project-grid">
-          {openclassrooms.map((project) => (
+          {study.map((project) => (
             <Card key={project.id} project={project} onOpen={setOpenProject} />
           ))}
         </div>

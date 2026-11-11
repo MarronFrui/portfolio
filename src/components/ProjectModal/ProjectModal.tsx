@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLanguage } from '../../i18n/languageContext';
+import { useLanguage } from '../../translation/languageContext';
 import type { Project } from '../../types/project';
 import './ProjectModal.scss';
 
@@ -36,7 +36,12 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
     >
       {project && (
         <div className="modal-content">
-          <button type="button" className="modal-close" onClick={close} aria-label={translate('MODAL_CLOSE')}>
+          <button
+            type="button"
+            className="modal-close"
+            onClick={close}
+            aria-label={translate('MODAL_CLOSE')}
+          >
             ×
           </button>
 

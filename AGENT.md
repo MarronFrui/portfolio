@@ -1,163 +1,179 @@
 # AGENT.md — Portfolio Project Brief
 
 > Read this first. It is the hand-off document for future sessions working on this repo.
+> Rebuilt from scratch on 2026-11-11 after the redesign; anything older (carousel, router, detail pages, skill bars) is gone on purpose.
 
 ---
 
 ## 1. What this project is
 
-Personal portfolio site for **MarronFrui** (GitHub: <https://github.com/MarronFrui>).
+Personal portfolio of **Maxime Fels** (GitHub: [MarronFrui](https://github.com/MarronFrui)), front-end developer.
 
-Repo: <https://github.com/MarronFrui/portfolio> — local path `/home/marron/work/project7`, branch `master`.
-
-**Goal:** showcase skills and projects, with two hard requirements (listed under "Requirements from the owner" below).
+- Repo: <https://github.com/MarronFrui/portfolio>, local path `/home/marron/work/project7`, branch `master`.
+- **One single page**, bilingual French / English, light or dark following the system.
+- Goal: show who the owner is and what he actually did on each project. The personal projects carry the personality; the study projects prove the basics.
 
 ---
 
 ## 2. Tech stack (fixed, do not change)
 
-| Layer    | Choice                                                                                                                  |
-| -------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Build    | **Vite 8**                                                                                                              |
-| UI       | **React 19**                                                                                                            |
-| Language | **TypeScript ~7.0** (`strict` via `tsc -b`)                                                                             |
-| Routing  | **react-router-dom ^7.18**                                                                                              |
-| Styling  | **SCSS** — plain-CSS migration is complete; global styles are being rebuilt (see the Current state of the code section) |
-| Lint     | **Oxlint** (`npm run lint`)                                                                                             |
+| Layer    | Choice                                                          |
+| -------- | --------------------------------------------------------------- |
+| Build    | Vite 8                                                          |
+| UI       | React 19                                                        |
+| Language | TypeScript ~7.0 (`tsc -b` in the build)                         |
+| Styling  | SCSS (`sass-embedded`), colours in CSS custom properties        |
+| Lint     | Oxlint (`npm run lint`), no ESLint, no Prettier, no formatter   |
+| Routing  | **None.** `react-router-dom` was removed: the site is one page  |
 
 Scripts: `npm run dev` · `npm run build` (`tsc -b && vite build`) · `npm run lint` · `npm run preview`.
 
----
-
-## 3. Requirements from the owner
-
-### Must-have
-
-1. **Promote at least 2 OpenClassrooms projects.**
-2. Vite + React + TypeScript stack.
-3. A **carousel** on the home page to swap between project previews.
-4. Clicking a preview navigates to a **detail page keyed by `ItemId`** (route is **`/projects/:itemId`**, per the Notion board) presenting that project.
-
-### Nice-to-have — "Personal projects" section
-
-A separate section for personal work, distinct from the OC coursework:
-
-| Project                      | Status            | Notes                                                                                                                                                                                                                         |
-| ---------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Noita Livemap** ← flagship | Work in progress  | Fork of [acidflow-noita/noitamap](https://github.com/acidflow-noita/noitamap). Owner is **reverse-engineering Noita's map generation** to rebuild it — long-term effort, but promotable now. Repo: `MarronFrui/noita-livemap` |
-| **Pokémon shiny bot hunter** | Written in Python | Repo: `MarronFrui/pokemon-farmer`. Owner is a front-end dev and explicitly says Python "is not my cup of tea" — present it as breadth, don't lean on it                                                                       |
-| **Project M**                | —                 | Scraper + multimedia **homelab streaming service**. No public repo found on the account; ask the owner for a link or description before writing copy                                                                          |
+TypeScript 7 ships no `tsserver`, so VS Code may fall back to its own TypeScript and show stale errors. `npx tsc -b` is the reference; restart the TS server in the editor if it disagrees.
 
 ---
 
-## 4. Task board
+## 3. The page, top to bottom
 
-Notion database **"Portfolio"** (Kanban, grouped by status):
-<https://app.notion.com/p/40ff6bacafed80ebbec2ea84a961ad94?v=40ff6bacafed8088bc1c000c002aa4e1>
+Rendered by `App.tsx`: `LanguageProvider` > `Header` + `Home` + `Footer`.
 
-Accessed live via the `notion` MCP server (added to `~/.config/opencode/opencode.json`, `--global`). Data source: `collection://40ff6bac-afed-8059-8d31-000bbec91626`. Schema: `Nom` (title), `État` (status: `Pas commencé` / `En cours` / `Terminé`), `Étape` (step number 1–39 — the execution order), `Catégorie` (select: Planning / Setup / Build / Content / Personal / Polish / Ship), `Assignation` (person).
+| Section             | Anchor            | What it shows                                                                                         |
+| ------------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
+| Header (sticky)     | —                 | Anchor links that smooth-scroll to each section, and the FR / EN toggle on the right                  |
+| Hero                | `#home`           | Name, tagline, **Download my CV (PDF)** button, "See my projects" button                              |
+| About               | `#about`          | Two paragraphs — **placeholder text**, the owner will write his own                                    |
+| _(preferred stack)_ | —                 | **Planned, not built.** A marked comment in `Home.tsx` holds its place. Replaces the old skill bars    |
+| Personal projects   | `#projects`       | Styled after <https://joe.arkaans.com/work>: a row of thumbnails, and a large showcase of the picked one |
+| Study projects      | `#study-projects` | The OpenClassrooms coursework, as cards in a grid, at the bottom of the page on purpose               |
+| Footer              | `#contact`        | GitHub link and e-mail                                                                                |
 
-**The board owns sequencing. This file owns context.** Read tasks from Notion live — do not mirror them here, they go stale.
+### Personal projects (`PersonalProjects` component)
 
-Status counts are recorded under "Last verified" at the bottom of this file.
+- Thumbnails show the project name; hovering shows its main language (`stack[0]`). Clicking one picks it; the first project is picked on load.
+- The showcase: era label, large thin title in the accent colour, outlined tech pills, GitHub button top right, large screenshot (plays the video on hover if the project has one), status line, summary, "My role" bullets, live demo button if any.
+- **Noita Livemap must stay first**: it is the most personal project and gives the page its personality.
 
-### Board structure
+### Study projects (`Card` + `ProjectModal`)
 
-- **Order:** the `Étape` number (1–39) — sort the view by it to see the sequence to work in.
-- **Category:** the `Catégorie` property (Planning, Setup, Build, Content, Personal, Polish, Ship). Titles are plain words — no bracket tags.
-- **Every card's body carries:** a one-line description, subtasks, and success criteria.
+- Each card: cover image, preview video that plays on hover or keyboard focus and rewinds on leave, title, summary, "My role" bullets, stack, GitHub button.
+- Clicking anywhere on a card opens `ProjectModal` (native `<dialog>`: Escape, × or a backdrop click closes it). The GitHub button on the card still goes straight to GitHub.
+- Phones have no hover, so videos do not play there; the cover image shows. Not yet decided whether to play them while on screen instead.
 
-(The old empty stray card with no title was deleted.)
+### Era labels
 
-### Board vs. reality — discrepancies to resolve
+Shown above the showcase title, set per project with `era`:
 
-| Board says                          | Repo actually has                                          | Action                                                     |
-| ----------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| Route is **`/projects/:itemId`**    | Router is mounted, but the detail route is **`/item/:id`** | Rename to `/projects/:itemId` — the board is authoritative |
-| ~~Configure **ESLint & Prettier**~~ | **Oxlint** stays (decided 2026-11-06)                      | Resolved — recorded on the step 7 card, now `Terminé`      |
+- `'ai-first'` — gradient label. **Only Noita Livemap.**
+- `'pre-ai'` — quiet dashed label. Pokémon Farmer, MaxFlix, Aim Training, Input Per Second.
+- No `era` — no label (the study projects).
 
-(Resolved since the last pass: setup tasks and the layout task now carry their true statuses.)
+### CV download
 
----
-
-## 5. Content sources — candidate OpenClassrooms projects
-
-All in <https://github.com/MarronFrui?tab=repositories>. Pick **two** (owner's call) — front-end leaning ones fit the portfolio best:
-
-| Repo                            | Tech               | Notes                                   |
-| ------------------------------- | ------------------ | --------------------------------------- |
-| `kasa-openclassroom`            | React              | Strongest fit — same stack as this site |
-| `Site-sophie-bluel-educational` | JavaScript         | Classic OC front-end project            |
-| `Nina-Carducci-Dev-Educational` | HTML               | SEO-focused                             |
-| `booki-starter`                 | HTML/CSS           | Vitrine site                            |
-| `mon-vieux-grimoire`            | Express (back-end) | Shows full-stack range                  |
-| `base-du-web`                   | HTML               | Tutorial, probably too basic            |
-
-Other personal repos worth mentioning: `noitamap` (the upstream fork), `input-per-second`, `Aim-Training`.
+The button links to `/cv.pdf` and saves it as `Maxime-Fels-CV.pdf`. **`public/cv.pdf` does not exist yet** — the owner must add it. One PDF for both languages.
 
 ---
 
-## 6. Current state of the code
+## 4. Code map
 
-### Architecture in place
+```
+src/
+  main.tsx                     entry point, imports styles/global.scss
+  App.tsx                      LanguageProvider > Header + Home + Footer
+  components/                  one folder per component: Name.tsx + Name.scss
+    Header/  Footer/  Home/
+    PersonalProjects/          thumbnail row + showcase
+    Card/                      study project card
+    ProjectModal/              detail view of a study project
+  hooks/useHoverVideo.ts       play a muted video on hover/focus, rewind on leave
+  data/projects.ts             every project; text fields are translation keys
+  types/project.ts             the Project type
+  translation/                 en.json, fr.json, translate(), language context
+  styles/_variables.scss       Sass names pointing at the CSS custom properties
+  styles/global.scss           theme colours, body, buttons, era labels, smooth scroll
+  assets/                      covers (png/jpg) and videos/ (mp4)
+public/                        favicon; cv.pdf goes here
+```
 
-All components live under **`src/components/`**, one folder per component:
+### Projects data
 
-- **`src/components/Router/Router.tsx`** — `BrowserRouter` with `Layout` as the parent route, children `/` (Home), `/about` (About), `/item/:id` (Item), `*` (Error).
-- **`src/App.tsx`** — renders `<Router />`. **The router is mounted and working.**
-- **`src/main.tsx`** — entry point, renders `<App />`.
-- **`src/components/Layout/Layout.tsx`** — `Header` + `<Outlet />` + `Footer`.
-- **Page stubs** — `Home`, `About`, `Item`, `Error` each render an empty `<div></div>`.
-- **`src/components/Header/Header.tsx`** — French labels `ACCUEIL` (`/`) and `A PROPOS` (`/about`).
+`src/data/projects.ts` — one entry per project:
 
-### Decided — home page structure (2026-11-06)
+- `category`: `'personal'` or `'study'`. Order in the array is the order on the page.
+- `title`, `summary`, `role[]`, `cover.alt` hold **translation keys**, never text.
+- `stack[]` (plain strings, not translated), `cover.src`, optional `video`, `repoUrl`, `liveUrl`, `era`, and `status` (`'done'` | `'in-progress'`).
 
-1. Top of home: a who-I-am description **with skills** (the hero, step 19).
-2. Below it: the gallery — **one big project card at a time**, moved by arrow controls (step 22). The card is the step 21 component rendered large; size comes from the container.
-3. While the big card is focused (hover **or** keyboard focus), a short **preview video of the project** plays. No autoplay row, no slideshow of small cards.
+| Project            | Category | Era      | Status      | Repo                                  | Live demo |
+| ------------------ | -------- | -------- | ----------- | ------------------------------------- | --------- |
+| Noita Livemap      | personal | ai-first | in progress | `MarronFrui/noita-livemap`            | —         |
+| Kasa               | study    | —        | done        | `MarronFrui/kasa-openclassroom`       | —         |
+| Mon Vieux Grimoire | study    | —        | done        | `MarronFrui/mon-vieux-grimoire`       | —         |
+| Sophie Bluel       | study    | —        | done        | `MarronFrui/Site-sophie-bluel-educational` | —    |
+| Pokémon Farmer     | personal | pre-ai   | in progress | `MarronFrui/pokemon-farmer`           | —         |
+| MaxFlix            | personal | pre-ai   | in progress | `MarronFrui/ProjectM`                 | —         |
+| Aim Training       | personal | pre-ai   | done        | `MarronFrui/Aim-Training`             | GitHub Pages |
+| Input Per Second   | personal | pre-ai   | done        | `MarronFrui/input-per-second`         | GitHub Pages |
 
-Recorded on the board on the cards for steps 19, 21 and 22. Touch decision (2026-11-06): phones have no hover, so the preview plays **while the card is on screen** — visibility replaces focus as the trigger; a tap keeps its single meaning: open the detail page. Blocked-autoplay (battery/data-saver) and reduced-motion fallbacks live on the step 22 card.
+Only the three study projects have videos. The Aim Training and Input Per Second covers are screenshots taken by an agent from the running sites; replace them if better ones exist.
 
-### Styling — deliberate decision, do not revert
+**The "My role" bullets are drafts** written from old descriptions and from reading the repos. They are not confirmed facts about what the owner did — the owner will rewrite them. Do not present them as verified.
 
-**`src/index.scss` was deleted on purpose** while rebuilding global styling from scratch. It used to define every design token (`--accent`, `--bg`, `--border`, `--text`, font stacks), `body { margin: 0 }`, the `#root` container, element resets, and dark-mode overrides.
+To add a project: add the entry in `projects.ts`, import its images there, and add its keys to both JSON files.
 
-- There are currently **no design tokens anywhere in `src/`**. Do not go looking for them, and do not restore `index.scss` — the owner is rebuilding styling their own way.
-- Consequence: the page renders with raw browser defaults until the new global styles land. That is expected, not a bug.
+---
 
-### Build status
+## 5. Translations
 
-All three commands pass: `npx tsc -b` ✓, `npm run lint` ✓, `npm run build` ✓.
+The owner's rule (from a senior tech lead friend): **two flat JSON files, one key → one string, no nesting.** Do not restructure them.
 
-The earlier break (`App.tsx` importing deleted `App.scss`) was resolved by the owner: the import is gone, the file stayed deleted. `header` and `footer` have real styles now; `Layout.scss` still defines body margin and a dark background; the remaining component `.scss` files are empty placeholders.
+- `src/translation/en.json` and `fr.json`. Keys are `UPPER_SNAKE_CASE`: `NAV_*`, `HERO_*`, `ABOUT_*`, `SECTION_*`, `PROJECT_*` for UI labels, `PROJECT_<ID>_TITLE / _SUMMARY / _ROLE_<n> / _COVER_ALT` for project text.
+- In a component: `const { translate } = useLanguage();` then `translate('NAV_HOME')`.
+- `en.json` is the reference: `TranslationKey` is its keys, and **the build fails if `fr.json` misses one** or if a component uses an unknown key.
+- Language: the choice made with the header toggle (saved in `localStorage` under `language`) wins; otherwise the browser's language (French if it prefers French, else English). `<html lang>` follows.
+- Not translated: the browser tab title and meta description in `index.html`, the stack pills, the CV file. The "AI-first" label stays in English in `fr.json` too.
+- French and English only. No other languages planned.
 
-### Styling conventions (once global styles land)
+---
 
-Prefer CSS custom properties over hardcoded values, and reuse the 1024px breakpoint that the existing component SCSS already uses. Component-level SCSS files (`Header.scss`, `Footer.scss`) currently exist but are empty.
+## 6. Styling
+
+- **Theme follows the system** through `prefers-color-scheme`; there is deliberately **no theme toggle**. Light is the default in `:root`, dark overrides it in the media query (`global.scss`). `index.html` declares `<meta name="color-scheme" content="light dark">`.
+- Colours are CSS custom properties (`--color-bg`, `--color-accent`, …). In SCSS, use the Sass names from `_variables.scss` (`$color-accent` → `var(--color-accent)`); never hardcode a colour that must change with the theme.
+- Shared classes in `global.scss`: `.button`, `.button--ghost`, `.button--contrast` (dark on light, light on dark), `.era-label`, `.era-label--pre-ai`.
+- Font: Montserrat from Google Fonts, weights 200–700 (200 is the showcase title).
+- Breakpoint: `$breakpoint-mobile: 768px`. Content width: `$content-width: 1200px`. Header height: `$header-height: 64px`, also used by `scroll-padding-top` so anchored sections land below the sticky header.
+- Respect `prefers-reduced-motion`: smooth scroll, hover lifts and entrance animations are turned off for it.
+
+---
+
+## 7. Task board
+
+Notion database **"Portfolio"**: <https://app.notion.com/p/40ff6bacafed80ebbec2ea84a961ad94?v=40ff6bacafed8088bc1c000c002aa4e1>
+
+Read live through the `notion` MCP server. Data source `collection://40ff6bac-afed-8059-8d31-000bbec91626`. Properties: `Nom` (title), `État` (`Pas commencé` / `En cours` / `Terminé`), `Étape` (execution order), `Catégorie` (Planning / Setup / Build / Content / Personal / Polish / Ship), `Assignation`.
+
+**The board predates the 2026-11-11 redesign.** It still describes a carousel, a `/projects/:itemId` detail route, skill bars and a separate About page. Where the board and this file disagree, this file reflects the owner's latest decisions; the board needs updating (ask the owner before rewriting cards).
 
 ---
 
 ## 8. Conventions & gotchas
 
-- **Plain words only** — no abbreviations, invented symbols, or tags that need explaining. If a label needs a paragraph to decode it, rename it. This applies to task names on the board, section references in this file, and card names alike.
-- Component layout: one folder per component under `src/components/` (`src/components/Header/Header.tsx` + `Header.scss`), default export, named function.
-- French UI labels are intentional (`ACCUEIL`, `A PROPOS`).
-- Oxlint, not ESLint — decided 2026-11-06 (no formatter either). No type-aware rules enabled yet.
-- `tsconfig.node.json` `include` is now correct (`"vite.config.ts"`). It was broken by an earlier bad edit — double-check it after any tsconfig change.
-- Don't commit `node_modules/` or `dist/` (already gitignored).
-- Ask before deleting or rewriting committed work — large rewrites are worth confirming first.
-- Do not restore `src/index.scss` — its removal was deliberate (explained under Current state of the code).
+- **Plain words only** — no abbreviations, invented symbols, or tags that need explaining, in code, labels, board cards and this file alike.
+- One folder per component under `src/components/`, `Name.tsx` + `Name.scss`, default export, named function.
+- All visible text goes through `translate()`. No hardcoded UI strings in components.
+- Wording on the site: "study projects", never "OpenClassrooms" (renamed on purpose). The only remaining occurrence is the Kasa repository URL, which is its real address.
+- Read functions off `useHoverVideo()` by destructuring (`const { ref, play, stop } = useHoverVideo()`); passing `hook.play` trips Oxlint's "refs during render" rule.
+- Don't commit `node_modules/` or `dist/` (gitignored).
+- Ask before deleting or rewriting committed work.
 
 ---
 
-## 9. Open questions for the owner
+## 9. Open items for the owner
 
-1. Which **two OpenClassrooms projects** to feature?
-2. What is **Project M**? Need a repo link, screenshots, and a one-paragraph description.
-3. Is there a **deploy target** (GitHub Pages, Netlify, Vercel)? Affects routing (`BrowserRouter` vs `HashRouter`) and base path.
-4. ~~Language of the site~~ **Resolved** — bilingual: French and English, with an EN/FR toggle in the header. Tracked on the Notion board as plain-named language cards.
-5. ~~Is the Notion board meant to be read by agents?~~ **Resolved** — board is connected via the `notion` MCP server and read live. Mirror nothing; read from Notion.
-6. ~~Lint/format tooling~~ **Resolved** — Oxlint stays, no ESLint or Prettier. Decided on 2026-11-06 when installing the project tooling; recorded on the board (card for step 7, now `Terminé`).
+1. Add `public/cv.pdf`.
+2. Rewrite the "My role" bullets and the About text (both languages).
+3. Build the **preferred stack** section.
+4. Decide whether project videos should play on phones while the card is on screen.
+5. Deploy target (GitHub Pages, Netlify, Vercel)? With no router, only the base path matters now (`base` in `vite.config.ts` for a GitHub Pages sub-path, and the `/cv.pdf` link).
+6. Update the Notion board to match the redesign.
 
 ---
 
@@ -165,6 +181,6 @@ Prefer CSS custom properties over hardcoded values, and reuse the 1024px breakpo
 
 Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
 
-- **Commit:** `a5eb4c8` "Feat: Shape for Header and Footer" — 7 commits on `master`. Uncommitted: `AGENT.md` plus default stub content added to the empty `Card.tsx` / `Gallery.tsx` files.
-- **Tooling:** `npx tsc -b` ✓ 0 errors · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓ succeeds.
-- **Notion board:** 39 tasks — 3 `Terminé`, 5 `En cours`, 31 `Pas commencé`. Ordered by `Étape` (1–39); subtasks are checklists (`- [x]` = done) and every card has success criteria; category lives in the `Catégorie` property, titles carry no tags.
+- **2026-11-11**, commit `0e0f960` "REFACTOR: General design changes", 23 commits on `master`. Uncommitted at that time: the move of `src/i18n` to `src/translation`, the "study projects" rename, this file.
+- **Tooling:** `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓.
+- **Translations:** 79 keys in each JSON file.

@@ -1,9 +1,9 @@
-import type { TranslationKey } from '../i18n/translate';
+import type { TranslationKey } from '../translation/translate';
 
-// Text fields hold keys of src/i18n/en.json and fr.json, not the text itself.
+// Text fields hold keys of src/translation/en.json and fr.json, not the text itself.
 export type Project = {
   id: string;
-  category: 'openclassrooms' | 'personal';
+  category: 'study' | 'personal';
   // Label shown on the project: built AI-first, or before AI tools.
   era?: 'ai-first' | 'pre-ai';
   title: TranslationKey;

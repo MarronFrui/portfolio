@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Project } from '../../types/project';
-import { useLanguage } from '../../i18n/languageContext';
+import { useLanguage } from '../../translation/languageContext';
 import { useHoverVideo } from '../../hooks/useHoverVideo';
 import './PersonalProjects.scss';
 
