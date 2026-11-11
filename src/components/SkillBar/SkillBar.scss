@@ -16,16 +16,19 @@
 }
 
 .skill-track {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
-  overflow: hidden;
+  display: flex;
+  gap: 3px;
+  height: 8px;
 }
 
-.skill-fill {
-  height: 100%;
+.skill-block {
+  flex: 1;
   border-radius: 2px;
-  transition: width 0.8s ease-out;
+  background: rgba(255, 255, 255, 0.06);
+
+  &.is-filled {
+    background: rgba($color-accent, 0.75);
+  }
 }
 
 .skill-percent {
@@ -43,6 +46,10 @@
 
   .skill-name {
     font-size: 0.8rem;
+  }
+
+  .skill-track {
+    gap: 2px;
   }
 
   .skill-percent {
