@@ -1,0 +1,75 @@
+@use '../../styles/variables' as *;
+
+// The page behind does not scroll while the game is open.
+html:has(.game-embed[open]) {
+  overflow: hidden;
+}
+
+.game-embed {
+  width: min(1280px, calc(100vw - 2rem));
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: 18px;
+  background: $color-surface;
+  color: $color-text;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.game-embed::backdrop {
+  background: rgba(10, 10, 14, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.game-embed-panel {
+  position: relative;
+  padding: 1rem;
+}
+
+.game-embed-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  background: $color-surface;
+  color: $color-text-muted;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text;
+    border-color: $color-text-muted;
+  }
+}
+
+.game-embed-frame {
+  display: block;
+  width: 100%;
+  // The game expects a real browser-window-shaped viewport, so the frame
+  // follows the window height instead of a fixed 16 / 9 ratio.
+  height: min(86vh, 800px);
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  background: #10131b;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .game-embed-frame {
+    height: 77vh;
+  }
+}
+
+.game-embed-hint {
+  margin: 0.75rem 0 0;
+  color: $color-text-muted;
+  font-size: 0.85rem;
+  text-align: center;
+
+  a {
+    color: $color-accent;
+  }
+}

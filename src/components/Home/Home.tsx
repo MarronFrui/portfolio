@@ -38,6 +38,7 @@ function Home() {
         <h2>{translate('ABOUT_TITLE')}</h2>
         <p>{translate('ABOUT_PARAGRAPH_1')}</p>
         <p>{translate('ABOUT_PARAGRAPH_2')}</p>
+        <p>{translate('ABOUT_PARAGRAPH_3')}</p>
       </section>
 
       {/* Preferred stack section goes here later. */}

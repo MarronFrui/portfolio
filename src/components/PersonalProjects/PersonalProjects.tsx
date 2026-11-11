@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Project } from '../../types/project';
 import { useLanguage } from '../../translation/languageContext';
 import { useHoverVideo } from '../../hooks/useHoverVideo';
+import GameEmbed from '../GameEmbed/GameEmbed';
 import './PersonalProjects.scss';
 
 type PersonalProjectsProps = {
@@ -11,6 +12,7 @@ type PersonalProjectsProps = {
 // A row of thumbnails to pick a project, and a large showcase of the picked one.
 function PersonalProjects({ projects }: PersonalProjectsProps) {
   const [selectedId, setSelectedId] = useState(projects[0]?.id);
+  const [embedOpen, setEmbedOpen] = useState(false);
   const { ref: videoRef, play, stop } = useHoverVideo();
   const { translate } = useLanguage();
 
@@ -29,7 +31,10 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
                 className={`personal-tile${isSelected ? ' is-selected' : ''}`}
                 aria-pressed={isSelected}
                 aria-label={translate(project.title)}
-                onClick={() => setSelectedId(project.id)}
+                onClick={() => {
+                  setSelectedId(project.id);
+                  setEmbedOpen(false);
+                }}
               >
                 <img src={project.cover.src} alt="" loading="lazy" />
                 <span className="personal-tile-hover">{project.stack[0]}</span>
@@ -94,6 +99,17 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
 
         <div className="showcase-text">
           <p className="showcase-summary">{translate(selected.summary)}</p>
+          {selected.playable && selected.liveUrl && (
+            <div className="showcase-play">
+              <button
+                type="button"
+                className="button button--contrast"
+                onClick={() => setEmbedOpen(true)}
+              >
+                ▶ {translate('GAME_PLAY_SESSION')}
+              </button>
+            </div>
+          )}
           <h4 className="showcase-subtitle">{translate('PROJECT_MY_ROLE')}</h4>
           <ul className="showcase-role">
             {selected.role.map((key) => (
@@ -107,6 +123,15 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
           )}
         </div>
       </article>
+
+      {selected.playable && selected.liveUrl && (
+        <GameEmbed
+          open={embedOpen}
+          title={translate(selected.title)}
+          src={selected.liveUrl}
+          onClose={() => setEmbedOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -15,5 +15,7 @@ export type Project = {
   video?: string;
   repoUrl?: string;
   liveUrl?: string;
+  // The showcase offers a playable session: the deployed build in an iframe.
+  playable?: boolean;
   status: 'done' | 'in-progress';
 };

@@ -7,7 +7,9 @@ import sophieBluelCover from '../assets/sophie-bluel.png';
 import sophieBluelVideo from '../assets/videos/sophiebluel.mp4';
 import noitamapCover from '../assets/noitamap.png';
 import pokemonFarmerCover from '../assets/pokemonFarmer.png';
+import pokemonFarmerVideo from '../assets/videos/pokemonfarmer.mp4';
 import projectmCover from '../assets/projectm.png';
+import maxflixVideo from '../assets/videos/MaxFlix.mp4';
 import aimTrainingCover from '../assets/aim-training.jpg';
 import inputPerSecondCover from '../assets/input-per-second.jpg';
 
@@ -95,6 +97,7 @@ export const projects: Project[] = [
     ],
     stack: ['Python', 'OpenCV', 'Win32 API', 'mGBA'],
     cover: { src: pokemonFarmerCover, alt: 'PROJECT_POKEMON_FARMER_COVER_ALT' },
+    video: pokemonFarmerVideo,
     repoUrl: 'https://github.com/MarronFrui/pokemon-farmer',
     status: 'in-progress',
   },
@@ -112,6 +115,7 @@ export const projects: Project[] = [
     ],
     stack: ['React', 'Express', 'TypeScript', 'Vite'],
     cover: { src: projectmCover, alt: 'PROJECT_PROJECTM_COVER_ALT' },
+    video: maxflixVideo,
     repoUrl: 'https://github.com/MarronFrui/ProjectM',
     status: 'in-progress',
   },
@@ -132,6 +136,7 @@ export const projects: Project[] = [
     cover: { src: aimTrainingCover, alt: 'PROJECT_AIM_TRAINING_COVER_ALT' },
     repoUrl: 'https://github.com/MarronFrui/Aim-Training',
     liveUrl: 'https://marronfrui.github.io/Aim-Training/',
+    playable: true,
     status: 'done',
   },
   {
@@ -150,6 +155,7 @@ export const projects: Project[] = [
     cover: { src: inputPerSecondCover, alt: 'PROJECT_INPUT_PER_SECOND_COVER_ALT' },
     repoUrl: 'https://github.com/MarronFrui/input-per-second',
     liveUrl: 'https://marronfrui.github.io/input-per-second/',
+    playable: true,
     status: 'done',
   },
 ];
