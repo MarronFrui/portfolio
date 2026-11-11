@@ -31,6 +31,8 @@ export const projects: Project[] = [
     stack: ['JavaScript', 'Vite', 'WebSocket', 'Lua'],
     cover: { src: noitamapCover, alt: 'PROJECT_NOITAMAP_COVER_ALT' },
     repoUrl: 'https://github.com/MarronFrui/noita-livemap',
+    liveUrl: 'https://marronfrui.github.io/noita-livemap/',
+    playable: true,
     status: 'in-progress',
   },
   {

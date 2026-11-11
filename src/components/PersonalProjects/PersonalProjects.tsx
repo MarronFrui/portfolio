@@ -116,11 +116,6 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
               <li key={key}>{translate(key)}</li>
             ))}
           </ul>
-          {selected.liveUrl && (
-            <a className="button" href={selected.liveUrl} target="_blank" rel="noreferrer">
-              {translate('PROJECT_LIVE_DEMO')}
-            </a>
-          )}
         </div>
       </article>
 

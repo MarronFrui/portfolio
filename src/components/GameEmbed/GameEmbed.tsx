@@ -15,12 +15,20 @@ type GameEmbedProps = {
 // open, so nothing runs in the background and every session starts fresh.
 function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const frameRef = useRef<HTMLIFrameElement>(null);
   const { translate } = useLanguage();
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
+    if (open && !dialog.open) {
+      dialog.showModal();
+      // showModal() would focus the first focusable element — the close
+      // button — so keyboard input would never reach the game. Focus the
+      // iframe instead; refocusing on load covers the game document
+      // finishing after this call.
+      frameRef.current?.focus();
+    }
     if (!open && dialog.open) dialog.close();
   }, [open]);
 
@@ -45,10 +53,14 @@ function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
         </button>
 
         <iframe
+          ref={frameRef}
           className="game-embed-frame"
           src={open ? src : undefined}
           title={title}
           allow="fullscreen; pointer-lock"
+          // The game document may finish loading after the dialog opens;
+          // give it the focus again so keys land in the game, not the UI.
+          onLoad={() => frameRef.current?.focus()}
         />
 
         <p className="game-embed-hint">
