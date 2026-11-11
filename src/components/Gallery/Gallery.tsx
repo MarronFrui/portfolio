@@ -12,7 +12,9 @@ type GalleryProps = {
 };
 
 function Gallery({ projects }: GalleryProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Number of steps turned so far. It is never wrapped (it can go to 10, -4...),
+  // so the angles keep growing and the CSS transition always spins the same way.
+  const [turn, setTurn] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Play the front video only while the gallery is on screen.
@@ -37,8 +39,10 @@ function Gallery({ projects }: GalleryProps) {
   }
 
   const count = projects.length;
-  const prev = () => setCurrentIndex((i) => (i - 1 + count) % count);
-  const next = () => setCurrentIndex((i) => (i + 1) % count);
+  const prev = () => setTurn((t) => t - 1);
+  const next = () => setTurn((t) => t + 1);
+  // Wrap only to know which card is in front (the extra + count handles negative turns).
+  const currentIndex = ((turn % count) + count) % count;
 
   const step = 360 / count;
   // Ring radius that places the cards edge-to-edge on their orbit.
@@ -49,7 +53,7 @@ function Gallery({ projects }: GalleryProps) {
   // rotateY(θ) translateZ(r) places it on the orbit, the closing rotateY(-θ)
   // cancels the facing rotation: a Ferris wheel.
   const slideTransform = (i: number) => {
-    const theta = (i - currentIndex) * step;
+    const theta = (i - turn) * step;
     return `rotateY(${theta}deg) translateZ(${radius}px) rotateY(${-theta}deg)`;
   };
 
