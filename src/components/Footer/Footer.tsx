@@ -1,14 +1,20 @@
 import './Footer.scss';
-import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <Link to="https://github.com/MarronFrui" className="nav-link">
+        <a
+          href="https://github.com/MarronFrui"
+          className="footer-link"
+          target="_blank"
+          rel="noreferrer"
+        >
           GitHub
-        </Link>
-        <div>Email : maxime.fels@gmail.com</div>
+        </a>
+        <a href="mailto:maxime.fels@gmail.com" className="footer-link">
+          maxime.fels@gmail.com
+        </a>
       </div>
     </footer>
   );

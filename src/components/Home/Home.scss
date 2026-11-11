@@ -1,5 +1,7 @@
+@use '../../styles/variables' as *;
+
 .home {
-  max-width: 1200px;
+  max-width: $content-width;
   margin: 0 auto;
   padding: 2rem 1.5rem 3rem;
 }
@@ -10,18 +12,16 @@
 }
 
 .home-title h1 {
-  color: #ffffff;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.5rem;
   margin: 0 0 0.5rem;
+  color: $color-white;
+  font-size: 2.5rem;
 }
 
 .home-title p {
-  color: #b8b8b8;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem;
   max-width: 640px;
   margin: 0 auto;
+  color: $color-text-dim;
+  font-size: 1.1rem;
   line-height: 1.6;
 }
 
@@ -30,16 +30,22 @@
 }
 
 .home-section h2 {
-  color: #ffffff;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
   margin: 0 0 1.25rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: $color-white;
+  font-size: 1.5rem;
 }
 
-.home-gallery {
+.home-skills {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 300px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .home-skills {
+    gap: 0.6rem;
+  }
 }

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../Home/Home';
 import About from '../About/About';
-import Error from '../Error/Error';
+import NotFound from '../NotFound/NotFound';
 import Layout from '../Layout/Layout';
 import Item from '../Item/Item';
 
@@ -13,7 +13,7 @@ function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/item/:id" element={<Item />} />
-          <Route path="*" element={<Error />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

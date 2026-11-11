@@ -1,3 +1,7 @@
+@use '../../styles/variables' as *;
+
+$card-width: 760px; // must match CARD_WIDTH in Gallery.tsx
+
 .carousel {
   display: flex;
   align-items: center;
@@ -8,10 +12,8 @@
 }
 
 .carousel-ring {
-  --card-width: 760px;
-
   position: relative;
-  width: var(--card-width);
+  width: $card-width;
   height: 520px;
   transform-style: preserve-3d;
 }
@@ -22,13 +24,6 @@
   transition:
     transform 0.7s ease,
     opacity 0.4s ease;
-  // The ring is 3D but hit-testing is 2D: without this, the
-  // overlapping side cards steal clicks (and focus) from the front card.
-  pointer-events: none;
-}
-
-.carousel-slide.is-front {
-  pointer-events: auto;
 }
 
 .carousel-slide:not(.is-front) {
@@ -36,33 +31,51 @@
 }
 
 .carousel-arrow {
+  flex-shrink: 0;
   width: 44px;
   height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
-  user-select: none;
   opacity: 0.7;
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
-  flex-shrink: 0;
 }
 
-.carousel-arrow:hover {
+.carousel-arrow img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-arrow:hover,
+.carousel-arrow:focus-visible {
   opacity: 1;
   transform: scale(1.12);
 }
 
-.image {
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.carousel-counter {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: $color-text-faint;
+  font-size: 0.85rem;
 }
 
-.carousel-length {
-  width: 100%;
-  text-align: center;
-  color: #9a9a9a;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
+@media (max-width: $breakpoint-mobile) {
+  .carousel {
+    gap: 0.5rem;
+    overflow-x: clip;
+  }
+
+  .carousel-ring {
+    width: 75vw;
+    height: 360px;
+  }
+
+  .carousel-arrow {
+    width: 32px;
+    height: 32px;
+  }
 }

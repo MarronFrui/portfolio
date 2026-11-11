@@ -1,0 +1,12 @@
+@use 'variables' as *;
+
+body {
+  margin: 0;
+  background-color: $color-bg;
+  color: $color-text;
+  font-family: $font-main;
+}
+
+main {
+  flex: 1;
+}

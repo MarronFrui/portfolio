@@ -1,32 +1,30 @@
-# React + TypeScript + Vite
+# Portfolio — Maxime Fels
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+My personal portfolio: a home page with my skills and two 3D carousels (OpenClassrooms projects and personal projects), and a detail page for each project.
 
-Currently, two official plugins are available:
+Built with React 19, TypeScript, React Router, Sass and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Getting started
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev       # start the dev server
+npm run build     # type-check and build to dist/
+npm run preview   # serve the built site
+npm run lint      # run Oxlint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Project structure
+
+```
+src/
+  main.tsx          entry point
+  App.tsx
+  components/       one folder per component (.tsx + .scss)
+  data/             projects and skills
+  types/            TypeScript types
+  styles/           global styles and Sass variables
+  assets/           images and videos
+```
+
+To add a project, add an entry in `src/data/projects.ts` and import its images there.

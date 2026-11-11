@@ -1,16 +1,17 @@
+@use '../../styles/variables' as *;
+
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 1rem 2rem;
-  background: rgba(49, 51, 56, 0.72);
+  background: rgba($color-bg, 0.72);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid $color-border;
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: $content-width;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -25,19 +26,18 @@
 }
 
 .nav-link {
+  position: relative;
+  padding: 0.25rem 0;
+  color: $color-text-soft;
   text-decoration: none;
-  color: #d9d9d9;
-  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 0.95rem;
   letter-spacing: 0.08em;
-  position: relative;
-  padding: 0.25rem 0;
   transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: $color-white;
 }
 
 .nav-link::after {

@@ -1,5 +1,5 @@
-function Error() {
+function NotFound() {
   return <div></div>;
 }
 
-export default Error;
+export default NotFound;
