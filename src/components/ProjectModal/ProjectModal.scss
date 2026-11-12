@@ -93,6 +93,21 @@ html:has(.modal[open]) {
   }
 }
 
+// Down to 375px: the modal is already screen-wide, so only the text scale.
+@media (max-width: $breakpoint-small) {
+  .modal-body {
+    padding: 1.1rem 1.25rem 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.45rem;
+  }
+
+  .modal-summary {
+    font-size: 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modal[open] {
     animation: none;

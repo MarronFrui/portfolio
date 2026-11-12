@@ -23,6 +23,9 @@ $gradient-ai: linear-gradient(90deg, #7c5cff, #4dd0e1);
 $content-width: 1200px;
 $header-height: 64px;
 $breakpoint-mobile: 768px;
+// Small phones (down to 375px): the mobile layout still holds, only
+// paddings, font sizes and column counts tighten up.
+$breakpoint-small: 480px;
 
 // Font
 $font-main: 'Montserrat', sans-serif;

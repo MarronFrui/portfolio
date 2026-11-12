@@ -16,6 +16,9 @@
 
 .header-content {
   flex: 1;
+  // Lets the row shrink below its content so the nav can scroll instead of
+  // pushing the language toggle off-screen on narrow phones.
+  min-width: 0;
   max-width: $content-width;
   margin: 0 auto;
   display: flex;
@@ -96,5 +99,34 @@
   .nav-link {
     font-size: 0.8rem;
     white-space: nowrap;
+  }
+}
+
+// Down to 375px: five links and the FR/EN toggle barely fit a 64px header,
+// so every space is cut, the nav takes the room left of the toggle and
+// scrolls sideways as a last resort.
+@media (max-width: $breakpoint-small) {
+  .header {
+    padding: 0 0.75rem;
+  }
+
+  .header-content {
+    gap: 0.75rem;
+  }
+
+  .nav {
+    flex: 1;
+    min-width: 0;
+    // A hairline scrollbar inside a 64px bar is louder than the few
+    // pixels it hides; the links can still be swiped.
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
   }
 }

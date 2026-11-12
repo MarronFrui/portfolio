@@ -27,3 +27,13 @@
   color: $color-heading;
   text-decoration: underline;
 }
+
+@media (max-width: $breakpoint-small) {
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-content {
+    gap: 1rem 2rem;
+  }
+}

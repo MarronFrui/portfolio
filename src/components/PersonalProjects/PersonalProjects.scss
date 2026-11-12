@@ -185,6 +185,15 @@
   text-align: center;
 }
 
+// Replaces the play button on touch devices, where the live session
+// cannot be played.
+.showcase-play-note {
+  margin: 0;
+  color: $color-text-faint;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
 @media (max-width: $breakpoint-mobile) {
   .personal-tiles {
     grid-auto-columns: 40%;
@@ -199,6 +208,32 @@
 
   .showcase-media {
     width: 100%;
+  }
+}
+
+// Down to 375px: wider thumbnails in the strip, a smaller showcase title
+// and left-aligned text — justified narrow columns make rivers of gaps.
+@media (max-width: $breakpoint-small) {
+  .personal-tiles {
+    grid-auto-columns: 62%;
+  }
+
+  .showcase-header {
+    margin: 1.5rem 0;
+  }
+
+  .showcase-title {
+    font-size: clamp(2rem, 10vw, 2.5rem);
+  }
+
+  .showcase-text {
+    margin-top: 1.5rem;
+  }
+
+  .showcase-summary {
+    font-size: 1rem;
+    text-align: left;
+    text-indent: 1.25rem;
   }
 }
 

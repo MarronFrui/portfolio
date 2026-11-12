@@ -124,6 +124,18 @@
   margin-top: auto;
 }
 
+// Down to 375px: a full-width card only needs less chrome, not less air
+// in the cover; the body padding and title shrink a touch.
+@media (max-width: $breakpoint-small) {
+  .card-body {
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card-image {

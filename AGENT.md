@@ -50,6 +50,7 @@ Rendered by `App.tsx`: `LanguageProvider` > `Header` + `Home` + `Footer`.
 
 - Thumbnails show the project name; hovering shows its main language (`stack[0]`). Clicking one picks it; the first project is picked on load.
 - The showcase: era label, large thin title in the accent colour, outlined tech pills, GitHub button top right, large screenshot (plays the video on hover if the project has one), status line, summary, "My role" bullets, live demo button if any.
+- **The live-session demos are desktop-only**: on a touch device (`(pointer: coarse)`, via the `useIsTouch` hook) the "Play a live session" button is replaced by a "Playable on desktop only" notice (`GAME_DESKTOP_ONLY`), because the embedded games need a mouse and a keyboard.
 - **Noita Livemap must stay first**: it is the most personal project and gives the page its personality.
 
 ### Study projects (`Card` + `ProjectModal`)
@@ -153,7 +154,7 @@ The owner's rule (from a senior tech lead friend): **two flat JSON files, one ke
 - Colours are CSS custom properties (`--color-bg`, `--color-accent`, …). In SCSS, use the Sass names from `_variables.scss` (`$color-accent` → `var(--color-accent)`); never hardcode a colour that must change with the theme.
 - Shared classes in `global.scss`: `.button`, `.button--ghost`, `.button--contrast` (dark on light, light on dark), `.era-label`, `.era-label--pre-ai`, `.chip-list` / `.chip`, `.role-title` / `.role-list`, `.project-links`.
 - Font: Montserrat from Google Fonts, weights 200–700 (200 is the showcase title).
-- Breakpoint: `$breakpoint-mobile: 768px`. Content width: `$content-width: 1200px`. Header height: `$header-height: 64px`, also used by `scroll-padding-top` so anchored sections land below the sticky header.
+- Breakpoints: `$breakpoint-mobile: 768px` and `$breakpoint-small: 480px` (small phones, tuned down to 375px). Content width: `$content-width: 1200px`. Header height: `$header-height: 64px`, also used by `scroll-padding-top` so anchored sections land below the sticky header.
 - Respect `prefers-reduced-motion`: smooth scroll, hover lifts and entrance animations are turned off for it.
 
 ---
