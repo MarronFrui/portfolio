@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Card from '../Card/Card';
 import PersonalProjects from '../PersonalProjects/PersonalProjects';
 import ProjectModal from '../ProjectModal/ProjectModal';
+import GitHubCalendar from '../GitHubCalendar/GitHubCalendar';
 import { projects } from '../../data/projects';
 import { useLanguage } from '../../translation/languageContext';
 import type { Project } from '../../types/project';
@@ -39,6 +40,7 @@ function Home() {
         <p>{translate('ABOUT_PARAGRAPH_1')}</p>
         <p>{translate('ABOUT_PARAGRAPH_2')}</p>
         <p>{translate('ABOUT_PARAGRAPH_3')}</p>
+        <GitHubCalendar />
       </section>
 
       {/* Preferred stack section goes here later. */}

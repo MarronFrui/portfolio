@@ -1,0 +1,71 @@
+@use '../../styles/variables' as *;
+
+.github-calendar {
+  margin-top: 2rem;
+  max-width: 760px;
+  // On phones the year of cells would shrink below readable size, so the
+  // graph keeps a minimum width and the block scrolls sideways instead.
+  overflow-x: auto;
+}
+
+.github-calendar-title {
+  margin: 0 0 0.75rem;
+  color: $color-heading;
+  font-size: 1.1rem;
+}
+
+.github-calendar-graph {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+
+.github-calendar-label {
+  fill: $color-text-faint;
+  font-family: $font-main;
+  font-size: 9px;
+}
+
+.github-calendar-cell {
+  transition: fill 0.3s ease;
+}
+
+// The five activity levels. Empty days use the background chip; the filled
+// ones ramp up the accent colour, so they follow the light and dark themes.
+.github-calendar-cell--0 {
+  fill: $color-chip;
+}
+
+.github-calendar-cell--1 {
+  fill: color-mix(in srgb, $color-accent 30%, transparent);
+}
+
+.github-calendar-cell--2 {
+  fill: color-mix(in srgb, $color-accent 60%, transparent);
+}
+
+.github-calendar-cell--3 {
+  fill: color-mix(in srgb, $color-accent 85%, transparent);
+}
+
+.github-calendar-cell--4 {
+  fill: $color-accent;
+}
+
+rect.github-calendar-cell:hover {
+  stroke: $color-accent-hover;
+  stroke-width: 1;
+}
+
+.github-calendar-caption {
+  margin: 0.5rem 0 0;
+  color: $color-text-faint;
+  font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-calendar-cell {
+    transition: none;
+  }
+}

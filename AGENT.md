@@ -40,7 +40,7 @@ Rendered by `App.tsx`: `LanguageProvider` > `Header` + `Home` + `Footer`.
 | ------------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
 | Header (sticky)     | —                 | Anchor links that smooth-scroll to each section, and the FR / EN toggle on the right                  |
 | Hero                | `#home`           | Name, tagline, **Download my CV (PDF)** button, "See my projects" button                              |
-| About               | `#about`          | Two paragraphs — **placeholder text**, the owner will write his own                                    |
+| About               | `#about`          | Two paragraphs — **placeholder text**, the owner will write his own. Ends with the GitHub activity calendar (`GitHubCalendar`) |
 | _(preferred stack)_ | —                 | **Planned, not built.** A marked comment in `Home.tsx` holds its place. Replaces the old skill bars    |
 | Personal projects   | `#projects`       | Styled after <https://joe.arkaans.com/work>: a row of thumbnails, and a large showcase of the picked one |
 | Study projects      | `#study-projects` | The OpenClassrooms coursework, as cards in a grid, at the bottom of the page on purpose               |
@@ -81,17 +81,29 @@ src/
   components/                  one folder per component: Name.tsx + Name.scss
     Header/  Footer/  Home/
     PersonalProjects/          thumbnail row + showcase
+    GitHubCalendar/            SVG contribution calendar under the About text
     Card/                      study project card
     ProjectModal/              detail view of a study project
   hooks/useHoverVideo.ts       play a muted video on hover/focus, rewind on leave
   data/projects.ts             every project; text fields are translation keys
+  data/contributions.json      snapshot of the GitHub contribution calendar
   types/project.ts             the Project type
   translation/                 en.json, fr.json, translate(), language context
   styles/_variables.scss       Sass names pointing at the CSS custom properties
   styles/global.scss           theme colours, body, buttons, era labels, smooth scroll
   assets/                      covers (png/jpg) and videos/ (mp4)
 public/                        favicon; cv.pdf goes here
+.github/
+  workflows/deploy.yml         Pages deployment; also runs Monday 05:00 UTC by cron
+  scripts/fetch-contributions.mjs  refetches the calendar into data/contributions.json
 ```
+
+### GitHub activity calendar (`GitHubCalendar` component)
+
+- Drawn from `src/data/contributions.json` — **no API call in the browser**. The JSON is refetched at build time by `.github/scripts/fetch-contributions.mjs` (GitHub GraphQL `contributionsCollection` for `MarronFrui`, run inside `deploy.yml` with `GITHUB_TOKEN`), so the site shows the data as of its last deployment.
+- If the fetch fails at build time, the committed snapshot is kept and the build continues; the calendar then just shows slightly older data.
+- The five fill levels are mixes of the accent colour, so they follow light and dark. On phones the grid keeps a 640 px minimum width and the block scrolls sideways.
+- Note: the calendar counts *contributions* (commits, issues, PRs, reviews on public repos), not raw commits.
 
 ### Projects data
 
@@ -124,7 +136,7 @@ To add a project: add the entry in `projects.ts`, import its images there, and a
 
 The owner's rule (from a senior tech lead friend): **two flat JSON files, one key → one string, no nesting.** Do not restructure them.
 
-- `src/translation/en.json` and `fr.json`. Keys are `UPPER_SNAKE_CASE`: `NAV_*`, `HERO_*`, `ABOUT_*`, `SECTION_*`, `PROJECT_*` for UI labels, `PROJECT_<ID>_TITLE / _SUMMARY / _ROLE_<n> / _COVER_ALT` for project text.
+- `src/translation/en.json` and `fr.json`. Keys are `UPPER_SNAKE_CASE`: `NAV_*`, `HERO_*`, `ABOUT_*`, `SECTION_*`, `PROJECT_*` for UI labels, `GITHUB_CALENDAR_*` for the activity calendar, `PROJECT_<ID>_TITLE / _SUMMARY / _ROLE_<n> / _COVER_ALT` for project text.
 - In a component: `const { translate } = useLanguage();` then `translate('NAV_HOME')`.
 - `en.json` is the reference: `TranslationKey` is its keys, and **the build fails if `fr.json` misses one** or if a component uses an unknown key.
 - Language: the choice made with the header toggle (saved in `localStorage` under `language`) wins; otherwise the browser's language (French if it prefers French, else English). `<html lang>` follows.
@@ -181,6 +193,4 @@ Read live through the `notion` MCP server. Data source `collection://40ff6bac-af
 
 Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
 
-- **2026-11-11**, commit `0e0f960` "REFACTOR: General design changes", 23 commits on `master`. Uncommitted at that time: the move of `src/i18n` to `src/translation`, the "study projects" rename, this file.
-- **Tooling:** `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓.
-- **Translations:** 79 keys in each JSON file.
+- **2026-11-12**, GitHub activity calendar added under About (component + build-time fetch + weekly cron in `deploy.yml`). Tooling: `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓. Translations: 86 keys in each JSON file.

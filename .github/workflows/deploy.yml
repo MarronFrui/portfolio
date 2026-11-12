@@ -4,6 +4,12 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  # Refresh the contribution calendar once a week even when nothing is
+  # pushed: Monday 05:00 UTC (06:00 or 07:00 in Paris, depending on DST).
+  # GitHub disables scheduled workflows after 60 days of repo inactivity;
+  # the weekly cron itself does not count as activity.
+  schedule:
+    - cron: '0 5 * * 1'
 
 permissions:
   contents: read
@@ -24,6 +30,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Bake the GitHub contribution calendar into src/data/contributions.json
+      # before the build, so the site never calls the API at page load. The
+      # script exits non-zero on failure; the committed snapshot is kept then.
+      - name: Fetch contribution calendar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/scripts/fetch-contributions.mjs || echo "::warning::Kept the committed contributions.json"
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

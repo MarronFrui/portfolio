@@ -80,5 +80,12 @@
   "PROJECT_INPUT_PER_SECOND_ROLE_2": "Calculé en direct les inputs par seconde sur les derniers appuis, et un record",
   "PROJECT_INPUT_PER_SECOND_ROLE_3": "Affiché un clavier à l'écran qui s'allume au fil des frappes",
   "PROJECT_INPUT_PER_SECOND_ROLE_4": "Ajouté un basculement entre les dispositions QWERTY et AZERTY",
-  "PROJECT_INPUT_PER_SECOND_COVER_ALT": "Compteur d'Input Per Second avec un clavier à l'écran"
+  "PROJECT_INPUT_PER_SECOND_COVER_ALT": "Compteur d'Input Per Second avec un clavier à l'écran",
+  "GITHUB_CALENDAR_TITLE": "Mon activité GitHub cette année",
+  "GITHUB_CALENDAR_CONTRIBUTION_ON": "contribution le",
+  "GITHUB_CALENDAR_CONTRIBUTIONS_ON": "contributions le",
+  "GITHUB_CALENDAR_NO_CONTRIBUTIONS": "Aucune contribution",
+  "GITHUB_CALENDAR_AS_OF": "Données au",
+  "GITHUB_CALENDAR_LESS": "Moins",
+  "GITHUB_CALENDAR_MORE": "Plus"
 }

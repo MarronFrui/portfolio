@@ -80,5 +80,12 @@
   "PROJECT_INPUT_PER_SECOND_ROLE_2": "Computed a live inputs-per-second rate over the last presses, and a best score",
   "PROJECT_INPUT_PER_SECOND_ROLE_3": "Rendered an on-screen keyboard that lights up as you type",
   "PROJECT_INPUT_PER_SECOND_ROLE_4": "Added a switch between QWERTY and AZERTY layouts",
-  "PROJECT_INPUT_PER_SECOND_COVER_ALT": "Input Per Second counter with an on-screen keyboard"
+  "PROJECT_INPUT_PER_SECOND_COVER_ALT": "Input Per Second counter with an on-screen keyboard",
+  "GITHUB_CALENDAR_TITLE": "My GitHub activity this year",
+  "GITHUB_CALENDAR_CONTRIBUTION_ON": "contribution on",
+  "GITHUB_CALENDAR_CONTRIBUTIONS_ON": "contributions on",
+  "GITHUB_CALENDAR_NO_CONTRIBUTIONS": "No contributions",
+  "GITHUB_CALENDAR_AS_OF": "Data as of",
+  "GITHUB_CALENDAR_LESS": "Less",
+  "GITHUB_CALENDAR_MORE": "More"
 }
