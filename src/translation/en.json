@@ -20,6 +20,7 @@
   "PROJECT_LIVE_DEMO": "Live demo",
   "GAME_PLAY_SESSION": "Play a live session",
   "GAME_EMBED_HINT": "The real game, served straight from GitHub Pages —",
+  "GAME_DESKTOP_ONLY": "Playable on desktop only — this demo needs a mouse and a keyboard.",
   "PROJECT_STATUS_DONE": "Shipped",
   "PROJECT_STATUS_IN_PROGRESS": "In progress",
   "PROJECT_ERA_AI_FIRST": "AI-first",

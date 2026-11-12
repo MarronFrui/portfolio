@@ -20,6 +20,7 @@
   "PROJECT_LIVE_DEMO": "Démo en ligne",
   "GAME_PLAY_SESSION": "Jouer une session en direct",
   "GAME_EMBED_HINT": "Le vrai jeu, servi directement depuis GitHub Pages —",
+  "GAME_DESKTOP_ONLY": "Jouable sur ordinateur uniquement — cette démo nécessite une souris et un clavier.",
   "PROJECT_STATUS_DONE": "Terminé",
   "PROJECT_STATUS_IN_PROGRESS": "En cours",
   "PROJECT_ERA_AI_FIRST": "AI-first",

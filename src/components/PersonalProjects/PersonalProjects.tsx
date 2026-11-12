@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Project } from '../../types/project';
 import { useLanguage } from '../../translation/languageContext';
 import { useHoverVideo } from '../../hooks/useHoverVideo';
+import { useIsTouch } from '../../hooks/useIsTouch';
 import { RoleList, StackList } from '../ProjectParts/ProjectParts';
 import GameEmbed from '../GameEmbed/GameEmbed';
 import './PersonalProjects.scss';
@@ -15,6 +16,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
   const [selectedId, setSelectedId] = useState(projects[0]?.id);
   const [embedOpen, setEmbedOpen] = useState(false);
   const { ref: videoRef, play, stop } = useHoverVideo();
+  const isTouch = useIsTouch();
   const { translate } = useLanguage();
 
   const selected = projects.find((p) => p.id === selectedId) ?? projects[0];
@@ -95,17 +97,26 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
 
         <div className="showcase-text">
           <p className="showcase-summary">{translate(selected.summary)}</p>
-          {playableUrl && (
-            <div className="showcase-play">
-              <button
-                type="button"
-                className="button button--contrast"
-                onClick={() => setEmbedOpen(true)}
-              >
-                ▶ {translate('GAME_PLAY_SESSION')}
-              </button>
-            </div>
-          )}
+          {playableUrl &&
+            (isTouch ? (
+              // The embedded session needs a mouse and a keyboard, so phones
+              // and tablets get a notice instead of a button that cannot work.
+              <div className="showcase-play">
+                <p className="showcase-play-note">
+                  {translate('GAME_DESKTOP_ONLY')}
+                </p>
+              </div>
+            ) : (
+              <div className="showcase-play">
+                <button
+                  type="button"
+                  className="button button--contrast"
+                  onClick={() => setEmbedOpen(true)}
+                >
+                  ▶ {translate('GAME_PLAY_SESSION')}
+                </button>
+              </div>
+            ))}
           <RoleList role={selected.role} />
         </div>
       </article>
