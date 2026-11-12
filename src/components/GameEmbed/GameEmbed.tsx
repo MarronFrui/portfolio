@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MouseEvent } from 'react';
+import { useRef, type MouseEvent } from 'react';
 import { useLanguage } from '../../translation/languageContext';
 import './GameEmbed.scss';
 
@@ -14,27 +14,25 @@ type GameEmbedProps = {
 // page behind does not scroll. The iframe only loads while the dialog is
 // open, so nothing runs in the background and every session starts fresh.
 function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { translate } = useLanguage();
 
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (open && !dialog.open) {
-      dialog.showModal();
-      // showModal() would focus the first focusable element — the close
-      // button — so keyboard input would never reach the game. Focus the
-      // iframe instead; refocusing on load covers the game document
-      // finishing after this call.
-      frameRef.current?.focus();
-    }
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
+  // The dialog only exists while `open` is true, so mounting it is what opens
+  // it and unmounting is what closes it — no effect needed to mirror the prop.
+  if (!open) return null;
 
   return (
     <dialog
-      ref={dialogRef}
+      ref={(dialog) => {
+        if (dialog && !dialog.open) {
+          dialog.showModal();
+          // showModal() would focus the first focusable element — the close
+          // button — so keyboard input would never reach the game. Focus the
+          // iframe instead; refocusing on load covers the game document
+          // finishing after this call.
+          frameRef.current?.focus();
+        }
+      }}
       className="game-embed"
       aria-label={title}
       onClose={onClose}
@@ -55,7 +53,7 @@ function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
         <iframe
           ref={frameRef}
           className="game-embed-frame"
-          src={open ? src : undefined}
+          src={src}
           title={title}
           allow="fullscreen; pointer-lock"
           // The game document may finish loading after the dialog opens;
