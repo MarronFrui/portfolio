@@ -82,10 +82,11 @@
   "PROJECT_INPUT_PER_SECOND_ROLE_4": "Ajouté un basculement entre les dispositions QWERTY et AZERTY",
   "PROJECT_INPUT_PER_SECOND_COVER_ALT": "Compteur d'Input Per Second avec un clavier à l'écran",
   "GITHUB_CALENDAR_TITLE": "Mon activité GitHub cette année",
-  "GITHUB_CALENDAR_CONTRIBUTION_ON": "contribution le",
-  "GITHUB_CALENDAR_CONTRIBUTIONS_ON": "contributions le",
-  "GITHUB_CALENDAR_NO_CONTRIBUTIONS": "Aucune contribution",
-  "GITHUB_CALENDAR_AS_OF": "Données au",
+  "GITHUB_CALENDAR_NO_CONTRIBUTIONS_ON": "Aucune contribution le {date}",
+  "GITHUB_CALENDAR_CONTRIBUTION_ON": "{count} contribution le {date}",
+  "GITHUB_CALENDAR_CONTRIBUTIONS_ON": "{count} contributions le {date}",
+  "GITHUB_CALENDAR_SUMMARY": "{count} contributions cette année",
+  "GITHUB_CALENDAR_AS_OF": "Données au {date}",
   "GITHUB_CALENDAR_LESS": "Moins",
   "GITHUB_CALENDAR_MORE": "Plus"
 }

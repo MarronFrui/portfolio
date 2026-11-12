@@ -1,6 +1,7 @@
 import type { Project } from '../../types/project';
 import { useLanguage } from '../../translation/languageContext';
 import { useHoverVideo } from '../../hooks/useHoverVideo';
+import { ProjectLinks, RoleList, StackList } from '../ProjectParts/ProjectParts';
 import './Card.scss';
 
 type CardProps = {
@@ -53,38 +54,9 @@ function Card({ project, onOpen }: CardProps) {
         </h3>
         <p className="card-summary">{translate(project.summary)}</p>
 
-        <h4 className="card-subtitle">{translate('PROJECT_MY_ROLE')}</h4>
-        <ul className="card-role">
-          {project.role.map((key) => (
-            <li key={key}>{translate(key)}</li>
-          ))}
-        </ul>
-
-        <ul className="card-stack" aria-label={translate('PROJECT_STACK')}>
-          {project.stack.map((tech) => (
-            <li key={tech} className="card-tech">
-              {tech}
-            </li>
-          ))}
-        </ul>
-
-        <div className="card-actions">
-          {project.repoUrl && (
-            <a className="button" href={project.repoUrl} target="_blank" rel="noreferrer">
-              {translate('PROJECT_VIEW_ON_GITHUB')}
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              className="button button--ghost"
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {translate('PROJECT_LIVE_DEMO')}
-            </a>
-          )}
-        </div>
+        <RoleList role={project.role} />
+        <StackList stack={project.stack} />
+        <ProjectLinks project={project} className="card-actions" />
       </div>
     </article>
   );

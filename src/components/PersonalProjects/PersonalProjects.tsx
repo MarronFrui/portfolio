@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Project } from '../../types/project';
 import { useLanguage } from '../../translation/languageContext';
 import { useHoverVideo } from '../../hooks/useHoverVideo';
+import { RoleList, StackList } from '../ProjectParts/ProjectParts';
 import GameEmbed from '../GameEmbed/GameEmbed';
 import './PersonalProjects.scss';
 
@@ -18,6 +19,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
 
   const selected = projects.find((p) => p.id === selectedId) ?? projects[0];
   if (!selected) return null;
+  const playableUrl = selected.playable ? selected.liveUrl : undefined;
 
   return (
     <div className="personal">
@@ -46,7 +48,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
       </ul>
 
       {/* The key restarts the entrance animation when another project is picked. */}
-      <article key={selected.id} className="showcase" aria-live="polite">
+      <article key={selected.id} className="showcase">
         <header className="showcase-header">
           {selected.era === 'ai-first' && (
             <span className="era-label">{translate('PROJECT_ERA_AI_FIRST')}</span>
@@ -55,11 +57,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
             <span className="era-label era-label--pre-ai">{translate('PROJECT_ERA_PRE_AI')}</span>
           )}
           <h3 className="showcase-title">{translate(selected.title)}</h3>
-          <ul className="showcase-stack" aria-label={translate('PROJECT_STACK')}>
-            {selected.stack.map((tech) => (
-              <li key={tech}>{tech}</li>
-            ))}
-          </ul>
+          <StackList stack={selected.stack} className="showcase-stack" />
         </header>
 
         {selected.repoUrl && (
@@ -92,14 +90,12 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
           )}
         </figure>
         <p className="showcase-status">
-          {translate(
-            selected.status === 'done' ? 'PROJECT_STATUS_DONE' : 'PROJECT_STATUS_IN_PROGRESS',
-          )}
+          {translate(selected.status === 'done' ? 'PROJECT_STATUS_DONE' : 'PROJECT_STATUS_IN_PROGRESS')}
         </p>
 
         <div className="showcase-text">
           <p className="showcase-summary">{translate(selected.summary)}</p>
-          {selected.playable && selected.liveUrl && (
+          {playableUrl && (
             <div className="showcase-play">
               <button
                 type="button"
@@ -110,20 +106,15 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
               </button>
             </div>
           )}
-          <h4 className="showcase-subtitle">{translate('PROJECT_MY_ROLE')}</h4>
-          <ul className="showcase-role">
-            {selected.role.map((key) => (
-              <li key={key}>{translate(key)}</li>
-            ))}
-          </ul>
+          <RoleList role={selected.role} />
         </div>
       </article>
 
-      {selected.playable && selected.liveUrl && (
+      {playableUrl && (
         <GameEmbed
           open={embedOpen}
           title={translate(selected.title)}
-          src={selected.liveUrl}
+          src={playableUrl}
           onClose={() => setEmbedOpen(false)}
         />
       )}

@@ -8,8 +8,13 @@ export type Language = 'en' | 'fr';
 // Fails the type check if fr.json misses a key that en.json has.
 const dictionaries: Record<Language, Record<TranslationKey, string>> = { en, fr };
 
-export function translate(language: Language, key: TranslationKey): string {
-  return dictionaries[language][key] ?? en[key] ?? key;
+// Strings may hold {name} placeholders, filled from params.
+export function translate(
+  language: Language,
+  key: TranslationKey,
+  params: Record<string, string | number> = {},
+): string {
+  return dictionaries[language][key].replace(/\{(\w+)\}/g, (_, name) => String(params[name]));
 }
 
 const STORAGE_KEY = 'language';

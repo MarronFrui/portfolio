@@ -4,7 +4,7 @@ import type { Language, TranslationKey } from './translate';
 type LanguageContextValue = {
   language: Language;
   setLanguage: (language: Language) => void;
-  translate: (key: TranslationKey) => string;
+  translate: (key: TranslationKey, params?: Record<string, string | number>) => string;
 };
 
 export const LanguageContext = createContext<LanguageContextValue | null>(null);

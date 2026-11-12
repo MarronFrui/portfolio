@@ -1,49 +1,34 @@
+import { useMemo } from 'react';
 import { useLanguage } from '../../translation/languageContext';
 import calendarData from '../../data/contributions.json';
 import './GitHubCalendar.scss';
 
-// One 365-day contribution calendar, drawn as SVG. The data is the snapshot
-// baked at build time (see .github/scripts/fetch-contributions.mjs): the page
-// never calls the GitHub API itself.
+// One 365-day contribution calendar, drawn as SVG from the snapshot baked at
+// build time (see .github/scripts/fetch-contributions.mjs): the page never
+// calls the GitHub API itself.
 
-// Layout of the grid, matching the GitHub profile graph proportions:
-// 11 px cells, 3 px gap, month labels on top, weekday labels on the left.
+// Grid proportions of the GitHub profile graph: 11 px cells, 3 px gap, month
+// labels on top, weekday labels on the left.
 const CELL = 11;
 const PITCH = CELL + 3;
 const LABEL_X = 26;
 const LABEL_Y = 14;
-const GRID_WIDTH = calendarData.weeks.length * PITCH;
-const SVG_WIDTH = LABEL_X + GRID_WIDTH + 6;
+const SVG_WIDTH = LABEL_X + calendarData.weeks.length * PITCH + 6;
 const SVG_HEIGHT = LABEL_Y + 7 * PITCH + 24;
+// Rows are weekdays, Sunday = 0. Only Monday, Wednesday and Friday get a label.
+const LABELED_ROWS = [1, 3, 5];
 
-// The weekday of a date, 0 = Sunday to 6 = Saturday. Weeks start on Sunday,
-// like GitHub's graph, so the row of a day is its weekday index.
+type CalendarDay = (typeof calendarData.weeks)[number]['days'][number];
+
 function utcDate(dateText: string): Date {
   return new Date(`${dateText}T00:00:00Z`);
 }
 
-function weekdayRow(dateText: string): number {
-  return utcDate(dateText).getUTCDay();
-}
-
-type CalendarDay = {
-  date: string;
-  count: number;
-  level: number;
-};
-
-type MonthLabel = {
-  key: string;
-  x: number;
-  text: string;
-};
-
-// A label under each month that starts within the first seven days of a week,
-// like the profile graph. Returns at most 13 of them.
-function monthLabels(locale: string): MonthLabel[] {
+// A label over each month that starts within the first seven days of a week.
+function monthLabels(locale: string) {
   const formatter = new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' });
-  const labels: MonthLabel[] = [];
   const labeled = new Set<string>();
+  const labels: { key: string; x: number; text: string }[] = [];
 
   calendarData.weeks.forEach((week, weekIndex) => {
     for (const day of week.days) {
@@ -59,36 +44,27 @@ function monthLabels(locale: string): MonthLabel[] {
   return labels;
 }
 
-// Short labels for the Monday, Wednesday and Friday rows.
-function weekdayLabels(locale: string): string[] {
+function weekdayLabels(locale: string) {
   const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
-  const samples = new Map<number, string>();
-  for (const week of calendarData.weeks) {
-    for (const day of week.days) {
-      const row = weekdayRow(day.date);
-      if (!samples.has(row)) samples.set(row, day.date);
-    }
-  }
-  return [1, 3, 5].map((row) => (samples.has(row) ? formatter.format(utcDate(samples.get(row)!)) : ''));
+  // 2024-01-07 is a Sunday, so day 7 + row is the weekday of that row.
+  return LABELED_ROWS.map((row) => ({
+    row,
+    text: formatter.format(new Date(Date.UTC(2024, 0, 7 + row))),
+  }));
 }
 
 function GitHubCalendar() {
   const { translate, language } = useLanguage();
   const locale = language === 'fr' ? 'fr-FR' : 'en-GB';
   const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeZone: 'UTC' });
-  const monthLabelsForRow = monthLabels(locale);
-  const weekdayLabelsForRow = weekdayLabels(locale);
+  const months = useMemo(() => monthLabels(locale), [locale]);
+  const weekdays = useMemo(() => weekdayLabels(locale), [locale]);
 
   function dayTitle(day: CalendarDay): string {
-    const dateText = dateFormatter.format(utcDate(day.date));
-    if (day.count === 0) {
-      return `${translate('GITHUB_CALENDAR_NO_CONTRIBUTIONS')} — ${dateText}`;
-    }
-    const unit =
-      day.count === 1
-        ? translate('GITHUB_CALENDAR_CONTRIBUTION_ON')
-        : translate('GITHUB_CALENDAR_CONTRIBUTIONS_ON');
-    return `${day.count} ${unit} ${dateText}`;
+    const date = dateFormatter.format(utcDate(day.date));
+    if (day.count === 0) return translate('GITHUB_CALENDAR_NO_CONTRIBUTIONS_ON', { date });
+    const key = day.count === 1 ? 'GITHUB_CALENDAR_CONTRIBUTION_ON' : 'GITHUB_CALENDAR_CONTRIBUTIONS_ON';
+    return translate(key, { count: day.count, date });
   }
 
   return (
@@ -98,45 +74,39 @@ function GitHubCalendar() {
         className="github-calendar-graph"
         viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
         role="img"
-        aria-label={`${translate('GITHUB_CALENDAR_TITLE')} — ${calendarData.totalContributions} ${translate('GITHUB_CALENDAR_CONTRIBUTIONS_ON')}`}
+        aria-label={`${translate('GITHUB_CALENDAR_TITLE')} — ${translate('GITHUB_CALENDAR_SUMMARY', { count: calendarData.totalContributions })}`}
       >
-        {monthLabelsForRow.map((label) => (
+        {months.map((label) => (
           <text key={label.key} className="github-calendar-label" x={label.x} y={10}>
             {label.text}
           </text>
         ))}
-        {weekdayLabelsForRow.map((text, index) =>
-          text ? (
-            <text
-              key={text}
-              className="github-calendar-label"
-              x={LABEL_X - 5}
-              y={LABEL_Y + [1, 3, 5][index] * PITCH + 9}
-              textAnchor="end"
-            >
-              {text}
-            </text>
-          ) : null,
-        )}
+        {weekdays.map(({ row, text }) => (
+          <text
+            key={row}
+            className="github-calendar-label"
+            x={LABEL_X - 5}
+            y={LABEL_Y + row * PITCH + 9}
+            textAnchor="end"
+          >
+            {text}
+          </text>
+        ))}
         {calendarData.weeks.map((week, weekIndex) => (
           <g key={week.firstDay}>
-            {week.days.map((day) => {
-              const x = LABEL_X + weekIndex * PITCH;
-              const y = LABEL_Y + weekdayRow(day.date) * PITCH;
-              return (
-                <rect
-                  key={day.date}
-                  className={`github-calendar-cell github-calendar-cell--${day.level}`}
-                  x={x}
-                  y={y}
-                  width={CELL}
-                  height={CELL}
-                  rx={2.5}
-                >
-                  <title>{dayTitle(day)}</title>
-                </rect>
-              );
-            })}
+            {week.days.map((day) => (
+              <rect
+                key={day.date}
+                className={`github-calendar-cell github-calendar-cell--${day.level}`}
+                x={LABEL_X + weekIndex * PITCH}
+                y={LABEL_Y + utcDate(day.date).getUTCDay() * PITCH}
+                width={CELL}
+                height={CELL}
+                rx={2.5}
+              >
+                <title>{dayTitle(day)}</title>
+              </rect>
+            ))}
           </g>
         ))}
         <g className="github-calendar-legend">
@@ -160,7 +130,7 @@ function GitHubCalendar() {
         </g>
       </svg>
       <p className="github-calendar-caption">
-        {translate('GITHUB_CALENDAR_AS_OF')} {dateFormatter.format(utcDate(calendarData.generatedAt))}
+        {translate('GITHUB_CALENDAR_AS_OF', { date: dateFormatter.format(utcDate(calendarData.generatedAt)) })}
       </p>
     </div>
   );

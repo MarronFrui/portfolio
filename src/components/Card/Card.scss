@@ -88,48 +88,6 @@
   line-height: 1.5;
 }
 
-.card-subtitle {
-  margin: 0 0 0.5rem;
-  color: $color-text-faint;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.card-role {
-  margin: 0 0 1.25rem;
-  padding-left: 1.1rem;
-  color: $color-text;
-  font-size: 0.95rem;
-  line-height: 1.55;
-
-  li + li {
-    margin-top: 0.3rem;
-  }
-
-  li::marker {
-    color: $color-accent;
-  }
-}
-
-.card-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0 0 1.25rem;
-  padding: 0;
-  list-style: none;
-}
-
-.card-tech {
-  padding: 0.25rem 0.75rem;
-  background: $color-chip;
-  border: 1px solid $color-border;
-  border-radius: 999px;
-  font-size: 0.8rem;
-}
-
 // The title button covers the whole card; the links below sit above it.
 .card-open {
   padding: 0;
@@ -163,9 +121,6 @@
 
 // Pushes the buttons to the bottom so cards of one row line up.
 .card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
   margin-top: auto;
 }
 

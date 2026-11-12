@@ -2,8 +2,7 @@
 // src/data/contributions.json, which the GitHubCalendar component imports.
 //
 // Called by deploy.yml before `npm run build`. On any failure it exits
-// non-zero and the workflow keeps the committed snapshot, so the site can
-// always build with slightly older data.
+// non-zero; the workflow then keeps the committed snapshot.
 //
 // Run with a token: GH_TOKEN=<token> node .github/scripts/fetch-contributions.mjs
 import { writeFileSync } from 'node:fs';
@@ -11,10 +10,12 @@ import { writeFileSync } from 'node:fs';
 const LOGIN = 'MarronFrui';
 const TOKEN = process.env.GH_TOKEN;
 
-if (!TOKEN) {
-  console.error('GH_TOKEN is missing; keeping the committed contributions.json');
+function fail(message) {
+  console.error(message);
   process.exit(1);
 }
+
+if (!TOKEN) fail('GH_TOKEN is missing');
 
 // contributionCalendar is the exact data the GitHub profile graph shows:
 // 53 Sunday-first weeks, one entry per day with a count and a 0-4 level.
@@ -48,22 +49,13 @@ const response = await fetch('https://api.github.com/graphql', {
   body: JSON.stringify({ query, variables: { login: LOGIN } }),
 });
 
-if (!response.ok) {
-  console.error(`GitHub API answered ${response.status}; keeping the committed contributions.json`);
-  process.exit(1);
-}
+if (!response.ok) fail(`GitHub API answered ${response.status}`);
 
 const body = await response.json();
-if (body.errors) {
-  console.error(JSON.stringify(body.errors));
-  process.exit(1);
-}
+if (body.errors) fail(JSON.stringify(body.errors));
 
 const calendar = body.data?.user?.contributionsCollection?.contributionCalendar;
-if (!calendar) {
-  console.error('Unexpected GraphQL answer; keeping the committed contributions.json');
-  process.exit(1);
-}
+if (!calendar) fail('Unexpected GraphQL answer');
 
 const level = {
   NONE: 0,

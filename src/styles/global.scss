@@ -142,3 +142,52 @@ main {
   color: $color-text-muted;
   box-shadow: none;
 }
+
+// Shared by the card, the modal and the showcase.
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 0.25rem 0.75rem;
+  background: $color-chip;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.role-title {
+  margin: 0 0 0.5rem;
+  color: $color-text-faint;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.role-list {
+  margin: 0 0 1.25rem;
+  padding-left: 1.15rem;
+  color: $color-text;
+  line-height: 1.6;
+
+  li + li {
+    margin-top: 0.3rem;
+  }
+
+  li::marker {
+    color: $color-accent;
+  }
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

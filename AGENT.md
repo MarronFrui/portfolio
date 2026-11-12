@@ -84,6 +84,8 @@ src/
     GitHubCalendar/            SVG contribution calendar under the About text
     Card/                      study project card
     ProjectModal/              detail view of a study project
+    Dialog/                    native <dialog> open while mounted (modal and game embed)
+    ProjectParts/              StackList, RoleList, ProjectLinks shared by card, modal, showcase
   hooks/useHoverVideo.ts       play a muted video on hover/focus, rewind on leave
   data/projects.ts             every project; text fields are translation keys
   data/contributions.json      snapshot of the GitHub contribution calendar
@@ -137,7 +139,7 @@ To add a project: add the entry in `projects.ts`, import its images there, and a
 The owner's rule (from a senior tech lead friend): **two flat JSON files, one key → one string, no nesting.** Do not restructure them.
 
 - `src/translation/en.json` and `fr.json`. Keys are `UPPER_SNAKE_CASE`: `NAV_*`, `HERO_*`, `ABOUT_*`, `SECTION_*`, `PROJECT_*` for UI labels, `GITHUB_CALENDAR_*` for the activity calendar, `PROJECT_<ID>_TITLE / _SUMMARY / _ROLE_<n> / _COVER_ALT` for project text.
-- In a component: `const { translate } = useLanguage();` then `translate('NAV_HOME')`.
+- In a component: `const { translate } = useLanguage();` then `translate('NAV_HOME')`; strings may hold `{name}` placeholders: `translate(key, { name })`.
 - `en.json` is the reference: `TranslationKey` is its keys, and **the build fails if `fr.json` misses one** or if a component uses an unknown key.
 - Language: the choice made with the header toggle (saved in `localStorage` under `language`) wins; otherwise the browser's language (French if it prefers French, else English). `<html lang>` follows.
 - Not translated: the browser tab title and meta description in `index.html`, the stack pills, the CV file. The "AI-first" label stays in English in `fr.json` too.
@@ -149,7 +151,7 @@ The owner's rule (from a senior tech lead friend): **two flat JSON files, one ke
 
 - **Theme follows the system** through `prefers-color-scheme`; there is deliberately **no theme toggle**. Light is the default in `:root`, dark overrides it in the media query (`global.scss`). `index.html` declares `<meta name="color-scheme" content="light dark">`.
 - Colours are CSS custom properties (`--color-bg`, `--color-accent`, …). In SCSS, use the Sass names from `_variables.scss` (`$color-accent` → `var(--color-accent)`); never hardcode a colour that must change with the theme.
-- Shared classes in `global.scss`: `.button`, `.button--ghost`, `.button--contrast` (dark on light, light on dark), `.era-label`, `.era-label--pre-ai`.
+- Shared classes in `global.scss`: `.button`, `.button--ghost`, `.button--contrast` (dark on light, light on dark), `.era-label`, `.era-label--pre-ai`, `.chip-list` / `.chip`, `.role-title` / `.role-list`, `.project-links`.
 - Font: Montserrat from Google Fonts, weights 200–700 (200 is the showcase title).
 - Breakpoint: `$breakpoint-mobile: 768px`. Content width: `$content-width: 1200px`. Header height: `$header-height: 64px`, also used by `scroll-padding-top` so anchored sections land below the sticky header.
 - Respect `prefers-reduced-motion`: smooth scroll, hover lifts and entrance animations are turned off for it.
@@ -193,4 +195,4 @@ Read live through the `notion` MCP server. Data source `collection://40ff6bac-af
 
 Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
 
-- **2026-11-12**, GitHub activity calendar added under About (component + build-time fetch + weekly cron in `deploy.yml`). Tooling: `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓. Translations: 86 keys in each JSON file.
+- **2026-11-12**, GitHub activity calendar added under About (component + build-time fetch + weekly cron in `deploy.yml`). Tooling: `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓. Translations: 87 keys in each JSON file.

@@ -1,5 +1,6 @@
-import { useRef, type MouseEvent } from 'react';
+import { useRef } from 'react';
 import { useLanguage } from '../../translation/languageContext';
+import Dialog from '../Dialog/Dialog';
 import './GameEmbed.scss';
 
 type GameEmbedProps = {
@@ -17,28 +18,18 @@ function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { translate } = useLanguage();
 
-  // The dialog only exists while `open` is true, so mounting it is what opens
-  // it and unmounting is what closes it — no effect needed to mirror the prop.
+  // The dialog only exists while `open` is true: mounting opens it.
   if (!open) return null;
 
   return (
-    <dialog
-      ref={(dialog) => {
-        if (dialog && !dialog.open) {
-          dialog.showModal();
-          // showModal() would focus the first focusable element — the close
-          // button — so keyboard input would never reach the game. Focus the
-          // iframe instead; refocusing on load covers the game document
-          // finishing after this call.
-          frameRef.current?.focus();
-        }
-      }}
+    // showModal() focuses the close button, so keyboard input would never
+    // reach the game: focus the iframe instead (again on load, since the game
+    // document may finish loading after the dialog opens).
+    <Dialog
       className="game-embed"
       aria-label={title}
       onClose={onClose}
-      onClick={(event: MouseEvent<HTMLDialogElement>) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
+      onOpen={() => frameRef.current?.focus()}
     >
       <div className="game-embed-panel">
         <button
@@ -56,8 +47,6 @@ function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
           src={src}
           title={title}
           allow="fullscreen; pointer-lock"
-          // The game document may finish loading after the dialog opens;
-          // give it the focus again so keys land in the game, not the UI.
           onLoad={() => frameRef.current?.focus()}
         />
 
@@ -68,7 +57,7 @@ function GameEmbed({ open, title, src, onClose }: GameEmbedProps) {
           </a>
         </p>
       </div>
-    </dialog>
+    </Dialog>
   );
 }
 
