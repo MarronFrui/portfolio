@@ -9,7 +9,8 @@ import type { Project } from '../../types/project';
 import './Home.scss';
 
 // Drop the PDF at public/cv.pdf; the button downloads it under this name.
-const CV_URL = '/cv.pdf';
+// BASE_URL is '/portfolio/' on GitHub Pages, so the href must carry the base.
+const CV_URL = `${import.meta.env.BASE_URL}cv.pdf`;
 const CV_FILE_NAME = 'Maxime-Fels-CV.pdf';
 
 const personal = projects.filter((p) => p.category === 'personal');
