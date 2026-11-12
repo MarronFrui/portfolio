@@ -196,4 +196,4 @@ Read live through the `notion` MCP server. Data source `collection://40ff6bac-af
 
 Volatile facts live here so the rest of this document stays true. Refresh this block whenever you check.
 
-- **2026-11-12**, GitHub activity calendar added under About (component + build-time fetch + weekly cron in `deploy.yml`). Tooling: `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓. Translations: 87 keys in each JSON file.
+- **2026-11-12**, responsive layout tuned down to 375px (`$breakpoint-small: 480px`; the header row needs `min-width: 0` to shrink) and the live-session demos show a desktop-only notice on touch devices (`useIsTouch`). Tooling: `npx tsc -b` ✓ · `npm run lint` ✓ 0 warnings, 0 errors · `npm run build` ✓. Translations: 88 keys in each JSON file.
