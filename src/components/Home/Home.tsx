@@ -23,7 +23,11 @@ function Home() {
   return (
     <div className="home">
       <section id="home" className="hero">
-        <h1>Maxime Fels</h1>
+        {/* The role lives inside the h1 so SEO keywords sit in the top heading. */}
+        <h1>
+          Maxime Fels
+          <span className="hero-role"> | {translate('HERO_ROLE')}</span>
+        </h1>
         <p className="hero-tagline">{translate('HERO_TAGLINE')}</p>
         <div className="hero-actions">
           <a className="button" href={CV_URL} download={CV_FILE_NAME}>

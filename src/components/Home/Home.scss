@@ -19,6 +19,14 @@
   font-size: clamp(2.25rem, 6vw, 3.5rem);
 }
 
+// The trade follows the name inside the h1: same line, quieter type.
+.hero-role {
+  color: $color-text-muted;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
 .hero-tagline {
   max-width: 640px;
   margin: 0 auto;
