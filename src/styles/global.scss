@@ -14,6 +14,10 @@
   --color-text-faint: #85888f;
   --color-accent: #c9553f;
   --color-accent-hover: #b24632;
+  // Button backgrounds must hold a 4.5:1 text contrast (WCAG AA); the raw
+  // accent fails it, so buttons use this darker shade (see .button).
+  --color-accent-strong: #b24632;
+  --color-accent-strong-hover: #a53c2b;
   --color-accent-contrast: #ffffff;
   --color-border: rgba(0, 0, 0, 0.1);
   --color-chip: rgba(0, 0, 0, 0.05);
@@ -35,7 +39,11 @@
     --color-text-faint: #8a8a8a;
     --color-accent: #d96c56;
     --color-accent-hover: #e5806b;
-    --color-accent-contrast: #ffffff;
+    --color-accent-strong: #d96c56;
+    --color-accent-strong-hover: #e5806b;
+    // The light accent is too dark for white text in the dark theme, but a
+    // near-black text keeps well above 4.5:1 (5.3:1).
+    --color-accent-contrast: #16171a;
     --color-border: rgba(255, 255, 255, 0.08);
     --color-chip: rgba(255, 255, 255, 0.06);
     --color-shadow: rgba(0, 0, 0, 0.4);
@@ -86,7 +94,7 @@ main {
   padding: 0.65rem 1.3rem;
   border: 1px solid transparent;
   border-radius: 10px;
-  background: $color-accent;
+  background: $color-accent-strong;
   color: $color-accent-contrast;
   text-decoration: none;
   font-weight: 600;
@@ -97,7 +105,7 @@ main {
 }
 
 .button:hover {
-  background: $color-accent-hover;
+  background: $color-accent-strong-hover;
 }
 
 .button--ghost {
@@ -165,7 +173,9 @@ main {
 
 .role-title {
   margin: 0 0 0.5rem;
-  color: $color-text-faint;
+  // Faint is decorative-small on purpose, but it fails the 4.5:1 text
+  // contrast on both themes; muted keeps the quiet look and passes.
+  color: $color-text-muted;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
