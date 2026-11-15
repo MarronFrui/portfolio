@@ -64,7 +64,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
 
         {selected.repoUrl && (
           <a
-            className="button button--contrast showcase-github"
+            className="button showcase-github"
             href={selected.repoUrl}
             target="_blank"
             rel="noreferrer"
@@ -110,7 +110,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
               <div className="showcase-play">
                 <button
                   type="button"
-                  className="button button--contrast"
+                  className="button"
                   onClick={() => setEmbedOpen(true)}
                 >
                   ▶ {translate('GAME_PLAY_SESSION')}

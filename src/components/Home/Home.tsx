@@ -35,7 +35,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Placeholder content: replace the ABOUT_ texts in src/translation/en.json and fr.json. */}
       <section id="about" className="home-section about">
         <h2>{translate('ABOUT_TITLE')}</h2>
         <p>{translate('ABOUT_PARAGRAPH_1')}</p>
@@ -44,7 +43,23 @@ function Home() {
         <GitHubCalendar />
       </section>
 
-      {/* Preferred stack section goes here later. */}
+      <section id="skills" className="home-section skills">
+        <h2>{translate('SECTION_SKILLS')}</h2>
+        <dl className="skills-list">
+          <div className="skills-group">
+            <dt>{translate('SKILLS_FRONTEND_LABEL')}</dt>
+            <dd>{translate('SKILLS_FRONTEND')}</dd>
+          </div>
+          <div className="skills-group">
+            <dt>{translate('SKILLS_BACKEND_LABEL')}</dt>
+            <dd>{translate('SKILLS_BACKEND')}</dd>
+          </div>
+          <div className="skills-group">
+            <dt>{translate('SKILLS_INFRA_LABEL')}</dt>
+            <dd>{translate('SKILLS_INFRA')}</dd>
+          </div>
+        </dl>
+      </section>
 
       <section id="projects" className="home-section">
         <h2>{translate('SECTION_PERSONAL_PROJECTS')}</h2>

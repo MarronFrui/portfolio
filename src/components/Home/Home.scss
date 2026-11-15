@@ -57,6 +57,36 @@
   line-height: 1.7;
 }
 
+// Skills: three groups laid out as slim cards, one column on mobile.
+
+.skills-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.skills-group {
+  padding: 1.1rem 1.4rem;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 14px;
+}
+
+.skills-group dt {
+  color: $color-text-muted;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skills-group dd {
+  margin: 0.4rem 0 0;
+  color: $color-heading;
+  font-weight: 600;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -69,6 +99,10 @@
   }
 
   .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-list {
     grid-template-columns: 1fr;
   }
 }

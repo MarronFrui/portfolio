@@ -24,8 +24,6 @@
   --color-shadow: rgba(20, 20, 40, 0.12);
   --color-header-bg: rgba(246, 246, 248, 0.75);
   --color-glow: rgba(124, 92, 255, 0.08);
-  --color-contrast-bg: #16171a;
-  --color-contrast-text: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -49,8 +47,6 @@
     --color-shadow: rgba(0, 0, 0, 0.4);
     --color-header-bg: rgba(49, 51, 56, 0.72);
     --color-glow: rgba(124, 92, 255, 0.14);
-    --color-contrast-bg: #f2f2f2;
-    --color-contrast-text: #16171a;
   }
 }
 
@@ -86,8 +82,8 @@ main {
   flex: 1;
 }
 
-// Buttons, shared by the hero and the cards.
-
+// Buttons, shared by the hero, the cards and the showcase. One look for one
+// function: every primary action uses the same accent background.
 .button {
   display: inline-flex;
   align-items: center;
@@ -97,6 +93,9 @@ main {
   background: $color-accent-strong;
   color: $color-accent-contrast;
   text-decoration: none;
+  // Native <button> controls do not inherit the body font, so the family
+  // must be set here for <a> and <button> to render identically.
+  font-family: $font-main;
   font-weight: 600;
   font-size: 0.95rem;
   transition:
@@ -116,17 +115,6 @@ main {
 
 .button--ghost:hover {
   background: $color-chip;
-}
-
-// Inverted colours: dark button on the light theme, light button on the dark theme.
-.button--contrast {
-  background: $color-contrast-bg;
-  color: $color-contrast-text;
-}
-
-.button--contrast:hover {
-  background: $color-contrast-bg;
-  opacity: 0.85;
 }
 
 // Era labels shown above a project title: AI-first, or pre-AI era.
