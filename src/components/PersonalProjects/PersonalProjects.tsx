@@ -32,7 +32,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
             <li key={project.id}>
               <button
                 type="button"
-                className={`personal-tile${isSelected ? ' is-selected' : ''}`}
+                className={`personal-tile ${isSelected ? 'is-selected' : ''}`}
                 aria-pressed={isSelected}
                 aria-label={translate(project.title)}
                 onClick={() => {
@@ -51,7 +51,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
 
       {/* The key restarts the entrance animation when another project is picked. */}
       <article key={selected.id} className="showcase">
-        <header className="showcase-header">
+        <div className="showcase-header">
           {selected.era === 'ai-first' && (
             <span className="era-label">{translate('PROJECT_ERA_AI_FIRST')}</span>
           )}
@@ -60,7 +60,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
           )}
           <h3 className="showcase-title">{translate(selected.title)}</h3>
           <StackList stack={selected.stack} className="showcase-stack" />
-        </header>
+        </div>
 
         {selected.repoUrl && (
           <a
@@ -92,7 +92,9 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
           )}
         </figure>
         <p className="showcase-status">
-          {translate(selected.status === 'done' ? 'PROJECT_STATUS_DONE' : 'PROJECT_STATUS_IN_PROGRESS')}
+          {translate(
+            selected.status === 'done' ? 'PROJECT_STATUS_DONE' : 'PROJECT_STATUS_IN_PROGRESS',
+          )}
         </p>
 
         <div className="showcase-text">
@@ -102,9 +104,7 @@ function PersonalProjects({ projects }: PersonalProjectsProps) {
               // The embedded session needs a mouse and a keyboard, so phones
               // and tablets get a notice instead of a button that cannot work.
               <div className="showcase-play">
-                <p className="showcase-play-note">
-                  {translate('GAME_DESKTOP_ONLY')}
-                </p>
+                <p className="showcase-play-note">{translate('GAME_DESKTOP_ONLY')}</p>
               </div>
             ) : (
               <div className="showcase-play">

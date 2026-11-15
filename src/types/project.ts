@@ -4,18 +4,15 @@ import type { TranslationKey } from '../translation/translate';
 export type Project = {
   id: string;
   category: 'study' | 'personal';
-  // Label shown on the project: built AI-first, or before AI tools.
   era?: 'ai-first' | 'pre-ai';
   title: TranslationKey;
   summary: TranslationKey;
-  // My actual role and what I did on the project, one key per bullet.
   role: TranslationKey[];
   stack: string[];
   cover: { src: string; alt: TranslationKey };
   video?: string;
   repoUrl?: string;
   liveUrl?: string;
-  // The showcase offers a playable session: the deployed build in an iframe.
   playable?: boolean;
   status: 'done' | 'in-progress';
 };

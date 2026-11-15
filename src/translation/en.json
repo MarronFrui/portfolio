@@ -63,7 +63,7 @@
   "PROJECT_PROJECTM_TITLE": "MaxFlix",
   "PROJECT_PROJECTM_SUMMARY": "A self-made Netflix-style streaming app that plays the media from my NAS.",
   "PROJECT_PROJECTM_ROLE_1": "This project got me familiar with scrapers. Fetching posters, titles and release dates from IMDb/TMDB was a great exercise.",
-  "PROJECT_PROJECTM_ROLE_2": "Many films are not relevant, so I had to decide how to select them, using ratings, categories and where the content comes from.",
+  "PROJECT_PROJECTM_ROLE_2": "This full stack project let me deepen my systems knowledge by using Docker, setting up a VM, and designing a complete and easy-to-maintain ecosystem.",
   "PROJECT_PROJECTM_ROLE_3": "After many failed attempts at fetching subtitles from subtitles.com, I wrote a script that extracts the subtitles from the files and uploads them to the NAS, making them automatically available.",
   "PROJECT_PROJECTM_ROLE_4": "To make the app fully functional, users are authenticated with Supabase, giving them access to a wishlist",
   "PROJECT_PROJECTM_COVER_ALT": "Screenshot of the MaxFlix catalog grid with movie and show posters",
@@ -89,5 +89,7 @@
   "GITHUB_CALENDAR_SUMMARY": "{count} contributions this year",
   "GITHUB_CALENDAR_AS_OF": "Data as of {date}",
   "GITHUB_CALENDAR_LESS": "Less",
-  "GITHUB_CALENDAR_MORE": "More"
+  "GITHUB_CALENDAR_MORE": "More",
+  "PAGE_TITLE": "Maxime Fels | Portfolio",
+  "PAGE_DESCRIPTION": "Maxime Fels — front-end developer portfolio."
 }

@@ -7,6 +7,12 @@ function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = language;
+    // Keep the head tags in sync with the visible language; index.html ships
+    // the English defaults and the fr.json keys translate them.
+    document.title = translate(language, 'PAGE_TITLE');
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', translate(language, 'PAGE_DESCRIPTION'));
   }, [language]);
 
   const setLanguage = (next: Language) => {
